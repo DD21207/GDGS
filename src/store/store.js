@@ -3,15 +3,39 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({}) // 这里你可能已经有其他 module
-
-store.registerModule('vux', { // 名字自己定义
+export default new Vuex.Store({
   state: {
-    isLoading: false
+    showBack: false,
+    titleName:"GDGS",
+    rightBtn:"icon-set",
+    rightView:"setting"
   },
   mutations: {
-    updateLoadingStatus (state, payload) {
-      state.isLoading = payload.isLoading
+    isShow(state,payload) {
+    	if( payload == 'home'){
+    		state.showBack = false;
+    	}else{
+    		state.showBack = true;	
+    	}
+    },
+    changeTitle(state,payload){
+      if( payload !=" "){
+        state.titleName = payload;
+      }else{
+        state.titleName = "GDGS";
+      }
+    },
+    changeBtn(state,payload){
+      if(payload == " "){
+        state.rightBtn = ""
+        state.rightView = ""
+      }else if(payload == "home"){
+        state.rightBtn = "icon-set"
+        state.rightView = "setting"
+      }else{
+        state.rightBtn = "icon-icon-test"
+        state.rightView = payload;
+      }
     }
   }
 })

@@ -3,10 +3,10 @@
     <view-box ref="viewBox">
       <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;" :left-options="{showBack:back}">
         <div>
-        GDGS
+        {{Name}}
         </div>
         <div slot="right">
-          <span class="iconfont icon-set"></span>
+          <span class="iconfont" :class="btn" style="font-size: 20px;font-weight: bold;" @click="test"></span>
         </div>
       </x-header>
       <router-view>
@@ -30,19 +30,74 @@ export default {
   data() {
     return {
         newsNum: "2",
-        back:true
+        back:false,
+        Name:"",
+        btn:""
     }
   },
   components: {
 
   },
   filters: {},
-  mounted: function() {},
+  mounted: function() {
+      // this.$store.commit('changeBtn', 'home');
+  },
+  computed: {
+      count () {
+        return this.$store.state.showBack
+      },
+      titleContent (){
+        return this.Name = this.$store.state.titleName    
+      },
+      btnContent(){
+        return this.btn = this.$store.state.rightBtn;
+      }
+  },
   watch: {
-
+    count(val){
+      this.back = val;
+    },
+    titleContent(val){
+       this.Name = val;
+    },
+    btnContent(val){
+       this.btn = val;
+    }
   },
   methods: {
-
+    test(){
+      let view = this.$store.state.rightView;
+      if( view == 'userGroup'){
+        this.$router.push({
+          name: 'addNew',
+          params: {
+            from: 'user'
+          }
+        });
+      }else if(view == 'materialControl'){
+        this.$router.push({
+          name: 'addNew',
+          params: {
+            from: 'material'
+          }
+        });
+      }else if(view == 'equipmentControl'){
+        this.$router.push({
+          name: 'addNew',
+          params: {
+            from: 'equipment'
+          }
+        });
+      }else if(view == 'setting'){
+        this.$router.push({
+          name: 'Edit'
+        });
+      }else if(view == 'estItem'){
+        this.$router.push({
+          name: 'estItemAdd'
+        });
+      }
+    }
   }
 }
 

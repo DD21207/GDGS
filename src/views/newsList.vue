@@ -1,6 +1,6 @@
 <template>
   <div id="newsList_div" style="height:1000px;">
-   sddddddddd
+   
   </div>
 </template>
 <script>
@@ -15,7 +15,10 @@ export default {
 
   },
   filters: {},
-  mounted: function() {},
+  mounted: function() {
+    this.$store.commit('isShow', ' ');
+    this.$store.commit('changeTitle', 'News')
+  },
   watch: {
 
   },

@@ -4,11 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
-import {post,fetch,patch,put} from './api/ajax'
+import { post, fetch, patch, put } from './api/ajax'
 import store from './store/store'
-import { LoadingPlugin, ToastPlugin, AlertPlugin,TransferDom,XHeader,ViewBox, Tabbar, TabbarItem,Grid, GridItem} from 'vux'
-import axios from 'axios' 
+import {XNumber,XTextarea,Datetime,PopupPicker,Group,XInput,XButton,Panel, Divider, LoadMore, LoadingPlugin, ToastPlugin, AlertPlugin, TransferDom, XHeader, ViewBox, Tabbar, TabbarItem, Grid, GridItem,ConfirmPlugin,Badge,Tab, TabItem} from 'vux'
+import axios from 'axios'
 import 'babel-polyfill'
+import $ from 'jquery'
 import Es6Promise from 'es6-promise'
 
 
@@ -23,15 +24,28 @@ Vue.use(Vuex)
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.use(AlertPlugin)
-
+Vue.use(ConfirmPlugin)
 
 Vue.component('x-header', XHeader)
 Vue.component('view-box', ViewBox)
 Vue.component('tabbar', Tabbar)
 Vue.component('grid', Grid)
+Vue.component('load-more', LoadMore)
+Vue.component('divider', Divider)
+Vue.component('panel', Panel)
 Vue.component('grid-item', GridItem)
 Vue.component('tabbar-item', TabbarItem)
 Vue.directive('transfer-dom', TransferDom)
+Vue.component('x-button', XButton)
+Vue.component('x-input', XInput)
+Vue.component('group', Group)
+Vue.component('datetime', Datetime)
+Vue.component('popup-picker', PopupPicker)
+Vue.component('x-textarea', XTextarea)
+Vue.component('badge', Badge)
+Vue.component('tab', Tab)
+Vue.component('tab-item', TabItem)
+Vue.component('x-number', XNumber)
 
 
 Vue.config.productionTip = false
@@ -45,10 +59,10 @@ FastClick.attach(document.body);
 
 //$http引用axios做ajax请求
 Vue.prototype.$http = axios
-Vue.prototype.$post=post;
-Vue.prototype.$fetch=fetch;
-Vue.prototype.$patch=patch;
-Vue.prototype.$put=put;
+Vue.prototype.$post = post;
+Vue.prototype.$fetch = fetch;
+Vue.prototype.$patch = patch;
+Vue.prototype.$put = put;
 
 
 
@@ -56,6 +70,7 @@ Vue.prototype.$put=put;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

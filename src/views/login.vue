@@ -45,10 +45,14 @@ export default {
         password: this.password
       }).then(response => {
         if (response.status === 0) {
-          // this.$router.push('/home')
           this.$vux.toast.show({
             text: '登录成功'
           })
+          var _this = this; 
+          setTimeout(function(){
+            _this.$router.push('/home')
+          },1000)
+
         } else {
           this.$vux.toast.show({
             text: response.msg,

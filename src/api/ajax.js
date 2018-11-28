@@ -5,9 +5,9 @@ import Vue from 'vue'
 //请求路径配置
 window.config = {
   Host: {
-    production: 'http://39.108.156.1/tonglejc',
-    development: 'http://39.108.156.1/tonglejc',
-    test: 'http://39.108.156.1/tonglejc'
+    production: 'http://47.107.190.200/tonglejc',
+    development: 'http://47.107.190.200/tonglejc-beta',
+    test: 'http://47.107.190.200/tonglejc'
   }
 }
 

@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const vuxLoader = require('vux-loader')
+var webpack = require("webpack")
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -78,7 +79,14 @@ const webpackConfig = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  plugins: [
+  new webpack.optimize.CommonsChunkPlugin('common.js'),
+  new webpack.ProvidePlugin({
+    $:"jquery",
+    jquery: "jquery"
+  })
+]
 }
 
 
