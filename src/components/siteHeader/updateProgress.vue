@@ -15,7 +15,7 @@
         </p>
         <group :gutter="'0px'">
           <div v-for="(item, index) in list" class="item_box">
-            <x-number :title="item.category+' - '+item.spec" v-model="item.quantityEst" :text-align="'right'" placeholder="请输入" button-style="round" :fillable='true' width="100px" :key="index"></x-number>
+            <x-number :title="item.category+' - '+item.spec" v-model="item.quantityAct" :text-align="'right'" placeholder="请输入" button-style="round" :fillable='true' width="100px" :key="index"></x-number>
             <p class="totalBox">成本：{{item | totalFormat}}</p>
           </div>
         </group>
@@ -46,7 +46,7 @@
           <popup-picker :title="'设备规格'" :data="eSpecList" v-model="eSpecSelected" :placeholder="'请选择'" @on-change="getEUnit"></popup-picker>
           <x-number :title="'设备数量'" v-model="eQuantityEst" button-style="round" :fillable='true' width="100px"></x-number>
           <x-input title="数量单位" v-model="eUnit" :text-align="'right'" :placeholder-align="'right'" :readonly='true'></x-input>
-          <x-input title="数量单价" v-model="ePrice" :text-align="'right'" :placeholder-align="'right'"></x-input>
+          <x-input title="单价" v-model="ePrice" :text-align="'right'" :placeholder-align="'right'"></x-input>
         </group>
       </div>
       <div class="button_box">
@@ -99,11 +99,11 @@ export default {
   },
   filters: {
     totalFormat: function(val) {
-      return val.price * val.quantityEst * 1
+      return val.unitPrice * val.quantityAct * 1
     }
   },
   mounted: function() {
-    let vConsole = new VConsole() // 初始化
+    // let vConsole = new VConsole() // 初始化
     this.getUrlConfig();
     this.onloadUpdate();
 
@@ -203,8 +203,8 @@ export default {
           "category": _this.eCategorySelected[0],
           "spec": _this.eSpecSelected[0],
           "unit": _this.eUnit,
-          "quantityEst": _this.eQuantityEst,
-          "price": _this.ePrice
+          "quantityAct": _this.eQuantityEst,
+          "unitPrice": _this.ePrice
         }
         var isExist = false;
         $.each(_this.list, function(index, val) {
@@ -248,19 +248,24 @@ export default {
       this.eCategorySelected = [];
       this.eSpecSelected = [];
       this.eQuantityEst = 0;
+      this.ePrice = 0;
       this.eUnit = " ";
       this.addEquipment = !this.addEquipment;
     },
     addSubmit() {
       var _this = this;
-      var myDate = new Date();
-      var time = myDate.toLocaleDateString().split('/').join('-');
+      var time = _this.getTime();
+      if( _this.workerCost != ""){
+        var workerCost =  _this.workerCost
+      }else{
+        var workerCost = null;
+      }
       var postData = {
-        "id": _this.progressData.projectId,
+        "id": _this.progressData.projectId.toString(),
         "dateStr": time,
-        "workerCost": _this.workerCost,
+        "workerCost":workerCost,
         "mediaId": _this.serverId,
-        "progress": _this.progress,
+        "progress": _this.progress.toString(),
         "projectOrderItemList": _this.list
       };
 
@@ -356,10 +361,8 @@ export default {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: function(res) {
             //    alert(res.serverId);
-            var serverId = {
-              id: '',
-              serverid: res.serverId
-            }
+            var serverId = res.serverId
+
             _this.serverId.push(serverId);
             console.log(_this.serverId)
 
@@ -406,6 +409,21 @@ export default {
     },
     show(index) {
       this.$refs.previewer.show(index)
+    },
+    getTime() {
+      var date = new Date();
+      var seperator1 = "-";
+      var seperator2 = ":";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+      return currentdate;
     }
   }
 }
