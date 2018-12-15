@@ -1,28 +1,28 @@
 <template>
   <div id="detailEdit" style="height:100%;">
     <div class="header_div"></div>
-    <div class="detail_div" v-if="this.$route.params.from == 'usergroup'">
+    <div class="detail_div" v-if="this.$route.query.from == 'usergroup'">
       <group :gutter="'40px'">
         <x-input title="姓名" v-model="username" :text-align="'right'" :placeholder-align="'right'" :readonly='true'></x-input>
         <x-input title="电话" v-model="phone" :text-align="'right'" :placeholder-align="'right'" :readonly='true'></x-input>
         <popup-picker :title="'角色'" :data="list" v-model="role" :placeholder="'请选择'"></popup-picker>
       </group>
     </div>
-    <div class="detail_div" v-else-if="this.$route.params.from == 'materialControl'">
+    <div class="detail_div" v-else-if="this.$route.query.from == 'materialControl'">
       <group :gutter="'40px'">
         <x-input title="名称" v-model="category" :text-align="'right'" :placeholder-align="'right'"></x-input>
         <x-input title="规格" v-model="spec" :text-align="'right'" :placeholder-align="'right'"></x-input>
         <x-input title="单位" v-model="unit" :text-align="'right'" :placeholder-align="'right'"></x-input>
       </group>
     </div>
-    <div class="detail_div" v-else-if="this.$route.params.from == 'equipmentControl'">
+    <div class="detail_div" v-else-if="this.$route.query.from == 'equipmentControl'">
       <group :gutter="'40px'">
         <x-input title="名称" v-model="category" :text-align="'right'" :placeholder-align="'right'"></x-input>
         <x-input title="规格" v-model="spec" :text-align="'right'" :placeholder-align="'right'"></x-input>
         <x-input title="单位" v-model="unit" :text-align="'right'" :placeholder-align="'right'"></x-input>
       </group>
     </div>
-    <div class="detail_div" v-else-if="this.$route.params.from == 'project'">
+    <div class="detail_div" v-else-if="this.$route.query.from == 'project'">
       <group :gutter="'20px'">
         <x-input title="项目名称" v-model="projectData.projectName" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
         <x-input title="发包方名称" v-model="projectData.issuingContract" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
@@ -81,6 +81,7 @@ export default {
   },
   filters: {},
   mounted: function() {
+
     this.onloadEdit();
   },
   watch: {
@@ -90,11 +91,12 @@ export default {
     onloadEdit() {
       var _this = this;
       this.$store.commit('isShow', ' ');
-      switch (this.$route.params.from) {
+      console.log(this.$route.query.data)
+      switch (this.$route.query.from) {
         case 'usergroup':
-          this.username = this.$route.params.data.username;
-          this.phone = this.$route.params.data.phone;
-          this.role.push(this.$route.params.data.usergroup);
+          this.username = this.$route.query.data.username;
+          this.phone = this.$route.query.data.phone;
+          this.role.push(this.$route.query.data.usergroup);
           this.$store.commit('changeTitle', '编辑用户');
           this.$store.commit('changeBtn', ' ');
           this.$post('/list-user-group.do').then(response => {
@@ -110,21 +112,21 @@ export default {
           })
           break;
         case 'materialControl':
-          this.category = this.$route.params.data.category;
-          this.spec = this.$route.params.data.spec;
-          this.unit = this.$route.params.data.unit;
+          this.category = this.$route.query.data.category;
+          this.spec = this.$route.query.data.spec;
+          this.unit = this.$route.query.data.unit;
           this.$store.commit('changeTitle', '编辑材料');
           this.$store.commit('changeBtn', ' ');
           break;
         case 'equipmentControl':
-          this.category = this.$route.params.data.category;
-          this.spec = this.$route.params.data.spec;
-          this.unit = this.$route.params.data.unit;
+          this.category = this.$route.query.data.category;
+          this.spec = this.$route.query.data.spec;
+          this.unit = this.$route.query.data.unit;
           this.$store.commit('changeTitle', '编辑设备');
           this.$store.commit('changeBtn', ' ');
           break;
         case 'project':
-          this.projectData = this.$route.params.data;
+          this.projectData = this.$route.query.data;
           this.siteLeader.push(this.projectData.siteLeader);
           this.buyer.push(this.projectData.buyer);
           this.$store.commit('changeTitle', '编辑项目');
@@ -158,7 +160,7 @@ export default {
     },
     editSubmit() {
       var _this = this;
-      switch (this.$route.params.from) {
+      switch (this.$route.query.from) {
         case 'usergroup':
           let usergroupCode = "";
           let usergroup = _this.role[0];
@@ -168,7 +170,7 @@ export default {
             }
           });
           this.$post('/update-user.do', {
-            "id": _this.$route.params.data.id,
+            "id": _this.$route.query.data.id,
             "usergroup": usergroup,
             "usergroupCode": usergroupCode
           }).then(response => {
@@ -190,7 +192,7 @@ export default {
           break;
         case 'materialControl':
           this.$post('/platform/material/update.do', {
-            "id": _this.$route.params.data.id,
+            "id": _this.$route.query.data.id,
             "category": _this.category,
             "spec": _this.spec,
             "unit": _this.unit
@@ -213,7 +215,7 @@ export default {
           break;
         case 'equipmentControl':
           this.$post('/platform/equipment/update.do', {
-            "id": _this.$route.params.data.id,
+            "id": _this.$route.query.data.id,
             "category": _this.category,
             "spec": _this.spec,
             "unit": _this.unit
@@ -264,9 +266,9 @@ export default {
     },
     delectSubmit() {
       var _this = this;
-      switch (this.$route.params.from) {
+      switch (this.$route.query.from) {
         case 'usergroup':
-          this.$post('/delete-user.do?userID=' + _this.$route.params.data.id).then(response => {
+          this.$post('/delete-user.do?userID=' + _this.$route.query.data.id).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
                 text: response.data,
@@ -284,7 +286,7 @@ export default {
           });
           break;
         case 'materialControl':
-          this.$post('/platform/material/delete.do?materialID=' + _this.$route.params.data.id).then(response => {
+          this.$post('/platform/material/delete.do?materialID=' + _this.$route.query.data.id).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
                 text: response.data,
@@ -302,7 +304,7 @@ export default {
           });
           break;
         case 'equipmentControl':
-          this.$post('/platform/equipment/delete.do?equipmentID=' + _this.$route.params.data.id).then(response => {
+          this.$post('/platform/equipment/delete.do?equipmentID=' + _this.$route.query.data.id).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
                 text: response.data,
@@ -321,7 +323,7 @@ export default {
           break;
         case 'project':
           this.$post('/project/update.do', {
-            "id":  _this.$route.params.data.id, //这个是必须的! 项目的唯一id
+            "id":  _this.$route.query.data.id, //这个是必须的! 项目的唯一id
             "status": "delete" //这个必须写死delete
           }).then(response => {
             if (response.status === 0) {

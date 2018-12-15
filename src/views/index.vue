@@ -92,10 +92,10 @@ export default {
           functionItem6['className'] = 'icon-jilu';
           functionItem6['label'] = '现场负责人'
           functionItem6['url'] = '/siteIndex'
-          // var functionItem7 = {};
-          // functionItem7['className'] = 'icon-hesuankemuleixing';
-          // functionItem7['label'] = '下达采购材料'
-          // functionItem7['url'] = '/equipmentControl'
+          var functionItem7 = {};
+          functionItem7['className'] = 'icon-hesuankemuleixing';
+          functionItem7['label'] = '项目采购人'
+          functionItem7['url'] = '/buyerIndex'
           // var functionItem8 = {};
           // functionItem8['className'] = 'icon-jindu';
           // functionItem8['label'] = '更新工程进度'
@@ -104,7 +104,7 @@ export default {
           // functionItem9['className'] = 'icon-xiangmu';
           // functionItem9['label'] = '查看所有项目'
           // functionItem9['url'] = '/equipmentControl'
-          this.functionList.push(functionItem,functionItem1,functionItem2,functionItem3,functionItem4,functionItem5,functionItem6);
+          this.functionList.push(functionItem,functionItem1,functionItem2,functionItem3,functionItem4,functionItem5,functionItem6,functionItem7);
           break;
          case 1:
           var functionItem = {};
@@ -140,23 +140,11 @@ export default {
           this.$router.push({
             name: 'siteIndex'
           });
-          // var functionItem6 = {};
-          // functionItem6['className'] = 'icon-jilu';
-          // functionItem6['label'] = '计算项目材料'
-          // functionItem6['url'] = '/equipmentControl'
-          // var functionItem7 = {};
-          // functionItem7['className'] = 'icon-hesuankemuleixing';
-          // functionItem7['label'] = '下达采购材料'
-          // functionItem7['url'] = '/equipmentControl'
-          // var functionItem8 = {};
-          // functionItem8['className'] = 'icon-jindu';
-          // functionItem8['label'] = '更新工程进度'
-          // functionItem8['url'] = '/equipmentControl'
-          // var functionItem9 = {};
-          // functionItem9['className'] = 'icon-xiangmu';
-          // functionItem9['label'] = '查看所有项目'
-          // functionItem9['url'] = '/equipmentControl'
-          // this.functionList.push(functionItem6,functionItem7,functionItem8,functionItem9);
+          break;
+        case 5:
+          this.$router.push({
+            name: 'buyerIndex'
+          });
           break;
       }
     }
@@ -177,7 +165,7 @@ export default {
   .logo_img {
     width: 60%;
     left: 50%;
-    margin-left: -30%;
+    margin-left: -31%;
     margin-top: 20px;
     position: relative;
     overflow: hidden;
@@ -193,7 +181,7 @@ export default {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
-    padding-left: 15px;
+    // padding-left: 15px;
     text-align:center;
   }
 

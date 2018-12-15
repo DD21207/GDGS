@@ -4,9 +4,43 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
-import { post, fetch, patch, put } from './api/ajax'
+import {
+  post,
+  fetch,
+  patch,
+  put
+} from './api/ajax'
 import store from './store/store'
-import { Previewer,Cell,Range, XNumber, XTextarea, Datetime, PopupPicker, Group, XInput, XButton, Panel, Divider, LoadMore, LoadingPlugin, ToastPlugin, AlertPlugin, TransferDom, XHeader, ViewBox, Tabbar, TabbarItem, Grid, GridItem, ConfirmPlugin, Badge, Tab, TabItem } from 'vux'
+import {
+  XTable,
+  Previewer,
+  Cell,
+  Range,
+  XNumber,
+  XTextarea,
+  Datetime,
+  PopupPicker,
+  Group,
+  XInput,
+  XButton,
+  Panel,
+  Divider,
+  LoadMore,
+  LoadingPlugin,
+  ToastPlugin,
+  AlertPlugin,
+  TransferDom,
+  XHeader,
+  ViewBox,
+  Tabbar,
+  TabbarItem,
+  Grid,
+  GridItem,
+  ConfirmPlugin,
+  Badge,
+  Tab,
+  TabItem
+} from 'vux'
 import axios from 'axios'
 import 'babel-polyfill'
 import $ from 'jquery'
@@ -45,10 +79,12 @@ Vue.component('x-textarea', XTextarea)
 Vue.component('badge', Badge)
 Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
-Vue.component('x-number', XNumber) 
+Vue.component('x-number', XNumber)
 Vue.component('range', Range)
 Vue.component('cell', Cell)
 Vue.component('previewer', Previewer)
+Vue.component('x-table', XTable)
+
 
 Vue.config.productionTip = false
 
@@ -73,6 +109,8 @@ window.vm = new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

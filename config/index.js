@@ -10,12 +10,21 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {
+        target: 'http://www.dawaki.com.cn//tonglejc-beta', // 接口域名
+        // secure: false,  // https配置
+        changeOrigin: true, // 跨域配置
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
-    // host: 'localhost',
-    // host: '192.168.14.252', // can be overwritten by process.env.HOST
-    host: '192.168.1.108', // can be overwritten by process.env.HOST
+    host: 'localhost',
+    // host: '172.20.10.2', // can be overwritten by process.env.HOST
+    // host: '192.168.1.108', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

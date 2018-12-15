@@ -7,7 +7,8 @@ import Vue from 'vue'
 window.config = {
   Host: {
     production: 'http://www.dawaki.com.cn/tonglejc',
-    development: 'http://www.dawaki.com.cn//tonglejc-beta',
+    // development: 'http://www.dawaki.com.cn//tonglejc-beta',
+    development: '/api',
     test: 'http://www.dawaki.com.cn/tonglejc'
   }
 }

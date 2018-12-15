@@ -18,7 +18,7 @@
     </div>
     <div class="detail_div" v-else-if="this.from == 'equipment'">
       <group :gutter="'40px'">
-        <x-input title="工程名称" v-model="category" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
+        <x-input title="名称" v-model="category" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
         <x-input title="规格" v-model="spec" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
         <x-input title="单位" v-model="unit" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
       </group>
@@ -92,7 +92,7 @@ export default {
       if (this.$route.query.from) {
         this.from = this.$route.query.from;
       } else {
-        this.from = this.$route.params.from;
+        this.from = this.$route.query.from;
       }
       switch (this.from) {
         case 'user':
@@ -147,7 +147,7 @@ export default {
       if (this.$route.query.from) {
         this.from = this.$route.query.from;
       } else {
-        this.from = this.$route.params.from;
+        this.from = this.$route.query.from;
       }
       switch (this.from) {
         case 'user':
@@ -226,7 +226,7 @@ export default {
           })
           break;
         case 'project':
-          var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+          var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/
           if (!re.test(_this.projectData.receivableAmount) && !re.test(_this.projectData.budget)) {
             alert("应收金额和控制价应为数字。");
             break;

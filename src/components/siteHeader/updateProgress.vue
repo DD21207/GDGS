@@ -457,7 +457,7 @@ export default {
       .tips {
         padding-left: 10px;
         padding-bottom: 10px;
-        width: 100%;
+        // width: 100%;
         font-size: 15px;
         color: black;
         border-bottom: 1px solid lightgrey;

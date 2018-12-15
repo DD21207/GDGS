@@ -1,5 +1,5 @@
 <template>
-  <div id="orderDetail" style="height:100%;">
+  <div id="buyerOrderDetail" style="height:100%;">
     <div class="header_div"></div>
     <div class="content_div">
       <div class="list_box">
@@ -7,8 +7,9 @@
           <li v-for="item in dataList">
             <div class="itemTitle">{{item.category}} - {{item.spec}}
             </div>
-            <div class="itemSummary">下单数量：{{item.quantityEst}} {{item.unit}} <span v-if="item.quantityAct*1 != 0 ">到货数量：{{item.quantityAct}} {{item.unit}}</span></div>
-            <x-button mini class="itemButtonBoxItem" v-bind:class="item.quantityAct*1 != 0 ? 'completeButton':''" :disabled="item.quantityAct*1 != 0 " @click.native="gotoConfirm(item)">确认到货数量</x-button>
+            <div class="itemSummary">下单数量：{{item.quantityEst}} {{item.unit}} </div>
+            <div class="itemSummary" v-if="item.unitPrice*1 != 0">单价：{{item.unitPrice}}  &nbsp;&nbsp;供应商：{{item.supplier}} </div>
+            <x-button mini v-if="item.unitPrice*1 == 0 " class="itemButtonBoxItem" v-bind:class="item.quantityAct*1 == 0 ? 'completeButton':''"  @click.native="gotoConfirm(item)">确认</x-button>
           </li>
           <li>
             <p class="moreBtn" @click="loadMore">加载更多</p>
@@ -19,13 +20,14 @@
     <div class="popper_div" v-show="popperShow">
       <div class="popper_input_box">
         <div class="popper_input_box_title">
-          确认真实到货数量
+          确认下单
         </div>
         <div class="popper_input_box_content">
           <p>{{popperData.category}} - {{popperData.spec}}</p>
           <group :gutter="'0px'">
             <x-input title="下单数量" v-model="popperData.quantityEst" :text-align="'right'" :placeholder-align="'right'" :readonly='true'></x-input>
-            <x-number :title="'到货数量'" v-model="quantityAct" :text-align="'right'" placeholder="请输入" button-style="round" :fillable='true' width="60px"></x-number>
+            <x-input title="单价" v-model="popperData.unitPrice" :text-align="'right'" :placeholder-align="'right'" ></x-input>
+            <x-input title="供应商" v-model="popperData.supplier" :text-align="'right'" :placeholder-align="'right'" ></x-input>
           </group>
           <div class="btn_div">
             <x-button mini class="cancelButton" @click.native="cancel">取消</x-button>
@@ -38,7 +40,7 @@
 </template>
 <script>
 export default {
-  name: 'orderDetail',
+  name: 'buyerOrderDetail',
   data() {
     return {
       username: "",
@@ -68,12 +70,12 @@ export default {
   methods: {
     onloadDetail() {
       var _this = this;
-      this.orderData = JSON.parse(sessionStorage.getItem('orderData') || "[]")
+      this.orderData = JSON.parse(sessionStorage.getItem('buyerOrderData') || "[]")
       this.orderNo = sessionStorage.getItem('orderNo');
       this.$store.commit('isShow', ' ');
       this.$store.commit('changeTitle', '订单详情')
       this.$store.commit('changeBtn', ' ');
-      this.$post('/site-header/order-item-list.do', {
+      this.$post('/buyer/order-item-list.do', {
         "projectId": this.orderData.projectId,
         "orderNo": this.orderNo,
         "pageNum": this.pageNum,
@@ -103,18 +105,18 @@ export default {
     Confirm() {
       var postData = {
         "projectId": this.orderData.projectId,
-        "orderNo": this.orderNo,
+        "orderNo": this.orderNo
       };
-
-      console.log(this.popperData)
+      
       var data = {
         "id": this.popperData.id,
-        "quantityAct": this.quantityAct
+        "supplier": this.popperData.supplier,
+        "unitPrice": this.popperData.unitPrice
       }
       postData['projectOrderItemList'] = [data];
 
 
-      this.$post('/site-header/confirm-order-item.do', postData).then(response => {
+      this.$post('/buyer/confirm-order-item.do', postData).then(response => {
         if (response.status === 0) {
             this.$vux.toast.show({
               text: response.data,
@@ -144,11 +146,11 @@ export default {
 @common_color: #174192;
 
 
-#orderDetail {
+#buyerOrderDetail {
   width: 100%;
 
   .content_div {
-    padding-top: 10px;
+    // padding-top: 10px;
     background: #f8f8f8;
 
     .title {
@@ -203,7 +205,7 @@ export default {
             // margin-left: 5px;
             position: absolute;
             right: 15px;
-            margin-top: -45px;
+            margin-top: -40px;
           }
 
           .completeButton {
@@ -246,7 +248,7 @@ export default {
 
     .popper_input_box {
       width: 90%;
-      height: 250px;
+      height: 300px;
       margin: 40% auto;
       background: white;
       border-radius: 10px;

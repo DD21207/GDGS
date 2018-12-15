@@ -79,7 +79,11 @@ export default {
             setTimeout(function() {
               _this.$router.push('/siteIndex')
             }, 1000)
-          } else {
+          } else if (response.data.usergroupCode == 5) {
+            setTimeout(function() {
+              _this.$router.push('/buyerIndex')
+            }, 1000)
+          }else{
             setTimeout(function() {
               _this.$router.push('/home')
             }, 1000)

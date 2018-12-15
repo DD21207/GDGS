@@ -20,6 +20,14 @@ import orderList from '@/components/siteHeader/orderList.vue'
 import addOrder from '@/components/siteHeader/addOrder.vue'
 import orderDetail from '@/components/siteHeader/orderDetail.vue'
 import updateProgress from '@/components/siteHeader/updateProgress.vue'
+import projectDetail from '@/components/siteHeader/projectDetail.vue'
+import buyerIndex from '@/components/buyer/buyerIndex.vue'
+import MaterialDetails from '@/components/buyer/MaterialDetails.vue'
+import buyerOrderList from '@/components/buyer/buyerOrderList.vue'
+import buyerOrderDetail from '@/components/buyer/buyerOrderDetail.vue'
+
+
+
 
 
 
@@ -30,7 +38,8 @@ export default new Router({
   routes: [{
     path: '/',
     name: 'gdgs',
-    redirect: '/Home'},{
+    redirect: '/Home'
+  }, {
     path: '/Login',
     name: 'Login',
     component: Login
@@ -49,7 +58,10 @@ export default new Router({
     }, {
       path: '/Edit',
       name: 'Edit',
-      component: Edit
+      component: Edit,
+      meta:{
+        keepAlive:true
+      },
     }, {
       path: '/newsList',
       component: newsList
@@ -81,34 +93,54 @@ export default new Router({
       path: '/addNew',
       name: 'addNew',
       component: addNew
-    },{
+    }, {
       path: '/siteIndex',
       name: 'siteIndex',
       component: siteIndex
-    },{
+    }, {
       path: '/estItem',
       name: 'estItem',
       component: estItem
-    },{
+    }, {
       path: '/estItemAdd',
       name: 'estItemAdd',
       component: estItemAdd
-    },{
+    }, {
       path: '/orderList',
       name: 'orderList',
       component: orderList
-    },{
+    }, {
       path: '/addOrder',
       name: 'addOrder',
       component: addOrder
-    },{
+    }, {
       path: '/orderDetail',
       name: 'orderDetail',
       component: orderDetail
-    },{
+    }, {
       path: '/updateProgress',
       name: 'updateProgress',
       component: updateProgress
+    }, {
+      path: '/projectDetail',
+      name: 'projectDetail',
+      component: projectDetail
+    }, {
+      path: '/buyerIndex',
+      name: 'buyerIndex',
+      component: buyerIndex
+    }, {
+      path: '/MaterialDetails',
+      name: 'MaterialDetails',
+      component: MaterialDetails
+    }, {
+      path: '/buyerOrderList',
+      name: 'buyerOrderList',
+      component: buyerOrderList
+    }, {
+      path: '/buyerOrderDetail',
+      name: 'buyerOrderDetail',
+      component: buyerOrderDetail
     }]
   }]
 })

@@ -322,10 +322,10 @@ export default {
 	  
 
 	    .title {
-	    	  background: #f8f8f8;
+	    	background: #f8f8f8;
 	      padding-left: 20px;
 	      padding-bottom: 10px;
-	      width: 100%;
+	      // width: 100%;
 	      font-weight: bold;
 	      font-size: 17px;
 	    }

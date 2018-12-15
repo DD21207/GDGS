@@ -67,7 +67,7 @@ export default {
     itemClick(item){
       this.$router.push({
           name: 'detailEdit',
-          params: {
+          query: {
             data: item.meta.data,
             from: 'equipmentControl'
           }

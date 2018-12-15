@@ -1,0 +1,243 @@
+#采购的项目列表
+/buyer/project-list.do
+（GET）
+?pageNum=1&pageSize=20
+
+返回：
+{
+	"status": 0,
+	"data":{
+	"pageNum": 1,
+	"pageSize": 3,
+	"size": 3,
+	"orderBy": null,
+	"startRow": 0,
+	"endRow": 2,
+	"total": 3,
+	"pages": 1,
+	"list":[
+	{
+	"id": 100001,
+	"projectName": "增城公园",
+	"status": "new added",
+	"progress": "60",
+	"issuingContract": "aaa",
+	"address": "增城市荔城大道增城广场",
+	"startDate": "2018-11-14",
+	"endDate": "2018-11-14",
+	"content": "aaaaaa",
+	"siteLeader": "张三",
+	"buyer": "张4",
+	"createTime": "2018-11-14 21:15:49",
+	"updateTime": "2018-12-05 23:10:21",
+	"show": false,
+	"needUpdate": true,
+	"receivableAmount": "12000000",
+	"receivable": "0",
+	"budget": "8000000",
+	"workerCost": "0",
+	"equipmentCost": "4600",
+	"materialCost": "0",
+	"totalCost": "4600",
+	"costPercent": "0.06",
+	"receivePercent": "0.00",
+	"materialPercent": "2.12"
+	},
+	{
+	"id": 100003,
+	"projectName": "天际大厦",
+	"status": "new added",
+	"progress": "23",
+	"issuingContract": "体理集团",
+	"address": "广州大道北213号",
+	"startDate": "2018-12-05",
+	"endDate": "2019-12-01",
+	"content": "天际大厦A座大楼建设",
+	"siteLeader": "444",
+	"buyer": "张4",
+	"createTime": "2018-12-01 22:56:21",
+	"updateTime": "2018-12-04 18:41:16",
+	"show": false,
+	"needUpdate": false,
+	"receivableAmount": "10000000",
+	"receivable": "0",
+	"budget": "7500000",
+	"workerCost": "0",
+	"equipmentCost": "0",
+	"materialCost": "0",
+	"totalCost": "0",
+	"costPercent": "0.00",
+	"receivePercent": "0.00",
+	"materialPercent": "0.00"
+	},
+	{"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+	],
+	"firstPage": 1,
+	"prePage": 0,
+	"nextPage": 0,
+	"lastPage": 1,
+	"isFirstPage": true,
+	"isLastPage": true,
+	"hasPreviousPage": false,
+	"hasNextPage": false,
+	"navigatePages": 8,
+	"navigatepageNums":[
+	1
+	]
+	}
+}
+
+#项目详细材料进度
+/buyer/item-percent-list.do
+(GET)
+?projectId=100001
+
+返回
+{
+"status": 0,
+"data":[
+	{
+	"item": "材料",
+	"itemId": 4,
+	"category": "水泥",
+	"spec": "C25混凝土",
+	"unit": "方",
+	"quantityEst": 11000,
+	"quantityAct": 270
+	},
+	{"item": "材料", "itemId": 8, "category": "沙", "spec": "细沙",…}
+]
+}
+
+
+#获取项目订单列表 (分为采购与已完成采购)
+/buyer/order-list.do
+(GET)
+?projectId=100001
+&pageNum=1
+&pageSize=10
+&statusCode=1  //1代表为采购, 2代表完成采购
+
+返回
+{
+	"status": 0,
+	"data":{
+	"pageNum": 1,
+	"pageSize": 10,
+	"size": 6,
+	"orderBy": null,
+	"startRow": 1,
+	"endRow": 6,
+	"total": 6,
+	"pages": 1,
+	"list":[
+			{
+		"id": 8,
+		"userId": 1,
+		"projectId": 100001,
+		"orderNo": 1542945675767,
+		"contact": "Dand",
+		"phone": "1390001312",
+		"address": "增城市荔城大道增城广场",
+		"arriveTime": "2018-11-30 00:00:00",
+		"status": 10,
+		"payment": null,
+		"createTime": "2018-11-23 12:01:15",
+		"updateTime": "2018-11-23 12:03:42"
+		}
+	],
+	"firstPage": 1,
+	"prePage": 0,
+	"nextPage": 0,
+	"lastPage": 1,
+	"isFirstPage": true,
+	"isLastPage": true,
+	"hasPreviousPage": false,
+	"hasNextPage": false,
+	"navigatePages": 8,
+	"navigatepageNums":[
+	1
+	]
+	}
+}
+
+
+#订单详细列表
+/buyer/order-item-list.do
+（Post）
+Json参数
+{
+  "projectId":"100001",
+  "orderNo":"1542945693057",
+  "pageNum":1,
+  "pageSize":10
+}
+
+返回：
+{
+	"status": 0,
+	"data":{
+	"pageNum": 1,
+	"pageSize": 10,
+	"size": 1,
+	"orderBy": null,
+	"startRow": 1,
+	"endRow": 1,
+	"total": 1,
+	"pages": 1,
+	"list":[
+		{
+		"id": 25,
+		"userId": 1,
+		"projectId": 100001,
+		"orderNo": 1542945693057,
+		"item": "材料",
+		"itemId": 4,
+		"category": "水泥",
+		"spec": "C25混凝土",
+		"unit": "方",
+		"quantityEst": 110,
+		"quantityAct": 0,
+		"supplier": null,
+		"unitPrice": 0,
+		"totalPrice": 0,
+		"createTime": "2018-11-23 12:01:32",
+		"updateTime": "2018-11-23 12:01:32"
+		}
+	],
+	"firstPage": 1,
+	"prePage": 0,
+	"nextPage": 0,
+	"lastPage": 1,
+	"isFirstPage": true,
+	"isLastPage": true,
+	"hasPreviousPage": false,
+	"hasNextPage": false,
+	"navigatePages": 8,
+	"navigatepageNums":[
+	1
+	]
+	}
+}
+
+#确认下单
+/buyer/confirm-order-item.do
+（Post）
+Json参数：
+{
+  "projectId":"100001",
+  "orderNo":"1542945693057",
+  "projectOrderItemList":[
+    {
+    	"id": 25,
+    	"supplier":"雕牌",
+      	"unitPrice":"100"
+    }
+  ]
+}
+
+返回：
+{
+"status": 0,
+"data": "确认成功"
+}
