@@ -1,0 +1,221 @@
+#*****************************************************************************
+# 公司高管模块
+#*****************************************************************************
+
+#获取项目列表
+/company/project-list.do
+(GET) 
+URL参数:
+?pageNum=1
+&pageSize=20
+
+返回
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 3,
+    "size": 3,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 2,
+    "total": 3,
+    "pages": 1,
+    "list":[
+      {
+      "id": 100001,
+      "projectName": "增城公园",
+      "status": "new added",
+      "progress": "60",
+      "issuingContract": "aaa",
+      "address": "增城市荔城大道增城广场",
+      "startDate": "2018-11-14",
+      "endDate": "2019-01-02",
+      "content": "aaaaaa",
+      "siteLeader": "张三",
+      "buyer": "张4",
+      "createTime": "2018-11-14 21:15:49",
+      "updateTime": "2018-12-05 23:10:21",
+      "show": false,
+      "needUpdate": true,
+      "receivableAmount": "12000000",
+      "receivable": "0",
+      "receivePercent": "0.0",
+      "budget": "8000000",
+      "workerCost": "0",
+      "equipmentCost": "4600",
+      "materialCost": "0",
+      "totalCost": "4600",
+      "costPercent": "0.1",
+      "usedDays": "40",
+      "totalDays": "49",
+      "daysPercent": "81.6"
+      },
+      {"id": 100003, "projectName": "天际大厦", "status": "new added", "progress": "23",…},
+      {"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+      ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+    }
+}
+
+
+
+#项目详细信息
+/company/project-details.do
+(GET)
+URL参数:
+?projectId=100001
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "id": 100001,
+    "projectName": "增城公园",
+    "status": "new added",
+    "progress": "60",
+    "issuingContract": "aaa",
+    "address": "增城市荔城大道增城广场",
+    "startDate": "2018-11-14",
+    "endDate": "2019-01-02",
+    "content": "aaaaaa",
+    "siteLeader": "张三",
+    "buyer": "张4",
+    "createTime": "2018-11-14 21:15:49",
+    "updateTime": "2018-12-05 23:10:21",
+    "show": false,
+    "needUpdate": false,
+    "receivableAmount": "12000000",
+    "receivable": "0",
+    "receivePercent": "0.0",
+    "budget": "8000000",
+    "workerCost": "0",
+    "equipmentCost": "4600",
+    "materialCost": "0",
+    "totalCost": "4600",
+    "costPercent": "0.1",
+    "materialPercent": "0.0",
+    "equipmentPercent": "0.0",
+    "usedDays": "40",
+    "totalDays": "49",
+    "daysPercent": "81.6"
+    imageURLs":[
+      "http://www.dawaki.com.cn/tonglejc-image/2018-12-04/bab202cb-eafd-4364-a80e-376d458bf279.jpg",
+      "http://www.dawaki.com.cn/tonglejc-image/2018-12-01/f917a42c-5b33-405d-8e9c-0d8ac2db19a5.jpg"
+    ]
+  }
+}
+
+
+
+#关闭项目
+/company/close-project.do
+(GET)
+URL参数:
+?projectId=100001
+
+返回:
+{
+"status": 0,
+"data": "结项成功"
+}
+
+
+
+
+#查看项目每天每月报告 (加一起了)
+/company/project-report.do
+(GET)
+URL参数:
+?dateStr=2018-12-01  //必须为 yyyy-MM-dd 格式
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "byDay":{
+      "projectTotal": 1,
+      "receivableAmountTotal": 10000000,
+      "receivableTotal": 0,
+      "projectList":[
+        {
+          "id": 100003,
+          "projectName": "天际大厦",
+          "status": "running",
+          "progress": "23",
+          "issuingContract": "体理集团",
+          "address": "广州大道北213号",
+          "startDate": "2018-12-05",
+          "endDate": "2019-12-01",
+          "content": "天际大厦A座大楼建设",
+          "siteLeader": "444",
+          "buyer": "张4",
+          "createTime": "2018-12-01 22:56:21",
+          "updateTime": "2018-12-04 18:41:16",
+          "show": false,
+          "needUpdate": false,
+          "receivableAmount": "10000000.00",
+          "receivable": "0.00",
+          "receivePercent": "0.0",
+          "budget": "7500000.00",
+          "workerCost": "0.00",
+          "equipmentCost": "0.00",
+          "materialCost": "0.00",
+          "totalCost": "0.00",
+          "costPercent": "0.0",
+          "usedDays": "19",
+          "totalDays": "361",
+          "daysPercent": "5.3"
+        }
+      ]
+    },
+    "byMonth":{
+      "projectTotal": 2,
+      "receivableAmountTotal": 30000000,
+      "receivableTotal": 0,
+      "projectList":[
+        {
+          "id": 100003,
+          "projectName": "天际大厦",
+          "status": "running",
+          "progress": "23",
+          "issuingContract": "体理集团",
+          "address": "广州大道北213号",
+          "startDate": "2018-12-05",
+          "endDate": "2019-12-01",
+          "content": "天际大厦A座大楼建设",
+          "siteLeader": "444",
+          "buyer": "张4",
+          "createTime": "2018-12-01 22:56:21",
+          "updateTime": "2018-12-04 18:41:16",
+          "show": false,
+          "needUpdate": false,
+          "receivableAmount": "10000000.00",
+          "receivable": "0.00",
+          "receivePercent": "0.0",
+          "budget": "7500000.00",
+          "workerCost": "0.00",
+          "equipmentCost": "0.00",
+          "materialCost": "0.00",
+          "totalCost": "0.00",
+          "costPercent": "0.0",
+          "usedDays": "19",
+          "totalDays": "361",
+          "daysPercent": "5.3"
+        },
+        {"id": 100004, "projectName": "1111", "status": "running", "progress": "83",…}
+      ]
+    }
+  }
+}

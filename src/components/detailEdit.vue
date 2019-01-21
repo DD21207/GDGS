@@ -126,7 +126,12 @@ export default {
           this.$store.commit('changeBtn', ' ');
           break;
         case 'project':
-          this.projectData = this.$route.query.data;
+          if(typeof(this.$route.query.data) == "object"){
+             this.projectData = this.$route.query.data;
+          }else{
+             this.projectData = JSON.parse(sessionStorage.getItem('editProjectData') || "[]")
+          }
+
           this.siteLeader.push(this.projectData.siteLeader);
           this.buyer.push(this.projectData.buyer);
           this.$store.commit('changeTitle', '编辑项目');
@@ -179,13 +184,14 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'userGroup'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
-                text: response.data,
+                text: response.msg,
               })
             }
           });
@@ -202,13 +208,14 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'materialControl'
                 })
+                _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
-                text: response.data,
+                text: response.msg,
               })
             }
           });
@@ -225,39 +232,59 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'equipmentControl'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
-                text: response.data,
+                text: response.msg,
               })
             }
           });
           break;
         case 'project':
-          var re = /^[0-9]+.?[0-9]*$/; 
-          if (!re.test(_this.projectData.receivableAmount) && !re.test(_this.projectData.budget)) {
+          var re = /^[0-9]+.?[0-9]*$/;
+          if (re.test(_this.projectData.receivableAmount) == false || re.test(_this.projectData.budget) == false) {
             alert("应收金额和控制价应为数字。");
             break;
           }
-          _this.projectData.siteLeader = _this.siteLeader[0];
-          _this.projectData.buyer = _this.buyer[0];
-          _this.projectData.updateTime = null;
-          this.$post('/project/update.do', _this.projectData).then(response => {
+
+          if( _this.projectData.receivableAmount < _this.projectData.budge){
+            alert("控制价应少于应收金额。")
+            break;
+          }
+          var data = {
+            "id":_this.projectData.id, //这个是必须的! 项目的唯一id
+            "projectName":_this.projectData.projectName,
+            "issuingContract":_this.projectData.issuingContract,
+            "address":_this.projectData.address,
+            "startDate":_this.projectData.startDate,
+            "endDate":_this.projectData.endDate,
+            "content":_this.projectData.content,
+            "siteLeader":_this.siteLeader[0],
+            "buyer":_this.buyer[0],
+            "receivableAmount":_this.projectData.receivableAmount,
+            "budget":_this.projectData.budget
+          }
+          // _this.projectData.siteLeader = ;
+          // _this.projectData.buyer = _this.buyer[0];
+          // _this.projectData.updateTime = null;
+          this.$post('/project/update.do', data).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'project'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
-                text: response.data,
+                text: response.msg,
               })
             }
           });
@@ -274,9 +301,10 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'userGroup'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -292,9 +320,10 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'materialControl'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -310,9 +339,10 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'equipmentControl'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -323,7 +353,7 @@ export default {
           break;
         case 'project':
           this.$post('/project/update.do', {
-            "id":  _this.$route.query.data.id, //这个是必须的! 项目的唯一id
+            "id":  _this.projectData.id, //这个是必须的! 项目的唯一id
             "status": "delete" //这个必须写死delete
           }).then(response => {
             if (response.status === 0) {
@@ -331,9 +361,10 @@ export default {
                 text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'project'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({

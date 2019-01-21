@@ -6,12 +6,6 @@
       <divider v-if="noData">暂无数据</divider>
       <div class="table_box">
         <x-table :full-bordered="true">
-          <!-- <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-            </tr>
-          </thead> -->
           <tbody>
             <tr>
               <td>项目名称</td>
@@ -67,6 +61,10 @@
             </tr>
           </tbody>
         </x-table>
+        <p style="margin-top:10px;border-bottom: 1px dashed grey">现场图片：</p>
+        <div class="detail_img_box" v-for="(item,index) in detailData.imageURLs">
+          <img :src="item" alt="">
+        </div>
       </div>
     </div>
     <div class="bottom_div"></div>

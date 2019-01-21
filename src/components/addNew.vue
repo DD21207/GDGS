@@ -167,12 +167,13 @@ export default {
           }).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
-                text: response.msg,
+                text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'userGroup'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -189,12 +190,13 @@ export default {
           }).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
-                text: response.msg,
+                text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'materialControl'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -211,12 +213,13 @@ export default {
           }).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
-                text: response.msg,
+                text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'equipmentControl'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({
@@ -231,17 +234,22 @@ export default {
             alert("应收金额和控制价应为数字。");
             break;
           }
+          if( _this.projectData.receivableAmount < _this.projectData.budge){
+            alert("控制价应少于应收金额。")
+            break;
+          }
           _this.projectData.siteLeader = _this.siteLeader[0];
           _this.projectData.buyer = _this.buyer[0];
           this.$post('/project/add.do', _this.projectData).then(response => {
             if (response.status === 0) {
               this.$vux.toast.show({
-                text: response.msg,
+                text: response.data,
               })
               setTimeout(function() {
-                _this.$router.push({
+                _this.$router.replace({
                   name: 'project'
                 })
+                 _this.$router.go(-1)
               }, 800)
             } else {
               this.$vux.toast.show({

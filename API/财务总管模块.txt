@@ -1,0 +1,486 @@
+#*****************************************************************************
+# 财务总管模块
+#*****************************************************************************
+
+#获取会计已审核的项目列表
+/finance/project-list.do
+(GET) 
+URL参数:
+?pageNum=1
+&pageSize=20
+
+返回
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 3,
+    "size": 3,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 2,
+    "total": 3,
+    "pages": 1,
+    "list":[
+      {
+      "id": 100001,
+      "projectName": "增城公园",
+      "status": "new added",
+      "progress": "60",
+      "issuingContract": "aaa",
+      "address": "增城市荔城大道增城广场",
+      "startDate": "2018-11-14",
+      "endDate": "2019-01-02",
+      "content": "aaaaaa",
+      "siteLeader": "张三",
+      "buyer": "张4",
+      "createTime": "2018-11-14 21:15:49",
+      "updateTime": "2018-12-05 23:10:21",
+      "show": false,
+      "needUpdate": true,
+      "receivableAmount": "12000000",
+      "receivable": "0",
+      "receivePercent": "0.0",
+      "budget": "8000000",
+      "workerCost": "0",
+      "equipmentCost": "4600",
+      "materialCost": "0",
+      "totalCost": "4600",
+      "costPercent": "0.1",
+      "usedDays": "40",
+      "totalDays": "49",
+      "daysPercent": "81.6"
+      },
+      {"id": 100003, "projectName": "天际大厦", "status": "new added", "progress": "23",…},
+      {"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+      ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+    }
+}
+
+
+
+#项目详细信息
+/finance/project-details.do
+(GET)
+URL参数:
+?projectId=100001
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "id": 100001,
+    "projectName": "增城公园",
+    "status": "new added",
+    "progress": "60",
+    "issuingContract": "aaa",
+    "address": "增城市荔城大道增城广场",
+    "startDate": "2018-11-14",
+    "endDate": "2019-01-02",
+    "content": "aaaaaa",
+    "siteLeader": "张三",
+    "buyer": "张4",
+    "createTime": "2018-11-14 21:15:49",
+    "updateTime": "2018-12-05 23:10:21",
+    "show": false,
+    "needUpdate": false,
+    "receivableAmount": "12000000",
+    "receivable": "0",
+    "receivePercent": "0.0",
+    "budget": "8000000",
+    "workerCost": "0",
+    "equipmentCost": "4600",
+    "materialCost": "0",
+    "totalCost": "4600",
+    "costPercent": "0.1",
+    "materialPercent": "0.0",
+    "equipmentPercent": "0.0",
+    "usedDays": "40",
+    "totalDays": "49",
+    "daysPercent": "81.6"
+  }
+}
+
+
+
+
+#更新实收款项
+/finance/receivable-update.do
+(Post)
+Json参数：
+{
+  "projectId":100001,
+  "receivable":50000.12
+}
+
+返回:
+{
+"status": 0,
+"data": "更新成功"
+}
+失败:
+{
+"status": 1,
+"msg": "金额已经超过应收金额总额, 请确认" 
+或者 
+"msg": "金额不能低于上次更新金额, 请确认"
+}
+
+
+
+
+#获取供应商应付总价列表
+/finance/supplier-price-list.do
+(GET)
+URL参数:
+?pageNum=1
+&pageSize=20
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 5,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 5,
+    "total": 5,
+    "pages": 1,
+    "list":[
+      {"supplier": "雕牌", "totalPrice": 8000},
+      {"supplier": "红旗", "totalPrice": 3600},
+      {"supplier": "东风", "totalPrice": 2500},
+      {"supplier": "填三大", "totalPrice": 550},
+      {"supplier": "黄雀", "totalPrice": 500}
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+
+
+#获取某个供应商的款项详细列表
+/finance/supplier-price-details.do
+(GET)
+URL参数:
+?supplier=红旗
+&pageNum=1
+&pageSize=20
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 5,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 5,
+    "total": 5,
+    "pages": 1,
+    "list":[
+      {
+      "projectId": 100001,
+      "category": "拖拉机",
+      "spec": "东方红",
+      "unit": "台",
+      "quantityAct": 5,
+      "supplier": "红旗",
+      "unitPrice": 500,
+      "totalPrice": 2500,
+      "projectName": "增城公园"
+      },
+      {"projectId": 100001, "category": "挖掘机", "spec": "C26", "unit": "台",…}
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+
+
+#确认供应商款项接口
+/finance/confirm-supplier-details.do
+(Post)
+Json参数： //其实是单个逐个确认, 但同样也支持一次确认全部, 所以用了数组
+[
+    {
+      "projectId": 100001,
+      "supplier": "红旗",
+      "category": "拖拉机",
+      "spec": "东方红",
+      "unit": "台"
+    },
+    {
+      "projectId": 100001,
+      "supplier": "红旗",
+      "category": "挖掘机",
+      "spec": "C26",
+      "unit": "台"
+    }
+]
+
+返回:
+{
+"status": 0,
+"data": "确认成功"
+}
+
+
+
+
+
+#获取对应年月的后勤数据列表
+/finance/logistical-data-list.do
+(GET)
+URL参数:
+?yearMonth=2018年12月 //这个日期格式, 前端必须固定为xxxx年xx月
+&pageNum=1
+&pageSize=20
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 2,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 2,
+    "total": 2,
+    "pages": 1,
+    "list":[
+      {
+      "id": 1,
+      "yearMonth": "2018年12月",
+      "item": "保险费",
+      "cost": 15121.45,
+      "createTime": "2018-12-24 02:13:30",
+      "updateTime": "2018-12-24 02:13:30"
+      },
+      {
+      "id": 2,
+      "yearMonth": "2018年12月",
+      "item": "文具费",
+      "cost": 151.45,
+      "createTime": "2018-12-24 02:14:16",
+      "updateTime": "2018-12-24 02:14:16"
+      }
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+
+#录入后勤费用数据
+/finance/add-logistical-data.do
+(Post)
+Json参数：
+{
+  "yearMonth":"2018年12月", //这个日期格式, 前端必须固定为xxxx年xx月, 否则前面展示列表的时候会获取不了对于数据
+  "item":"文具费",
+  "cost":151.45
+}
+
+返回:
+{
+"status": 0,
+"data": "添加成功"
+}
+失败:
+{
+"status": 1,
+"msg": "2018年12月已添加文具费, 不能重复添加" 
+}
+
+
+
+#根据ID, 修改后勤数据
+/finance/update-logistical-data.do
+(Post)
+Json参数：
+{
+  "id":1, //列表中的唯一id
+  "cost":21665.12
+}
+
+返回:
+{
+"status": 0,
+"data": "修改成功"
+}
+
+
+
+#根据ID, 删除后勤数据
+/finance/delete-logistical-data.do
+(GET)
+URL参数:
+?id=1
+
+返回:
+{
+"status": 0,
+"data": "删除成功"
+}
+
+
+
+
+#获取对应年月的后勤工资列表
+/finance/logistical-salary-list.do
+(GET)
+URL参数:
+?yearMonth=2018年12月 //这个日期格式, 前端必须固定为xxxx年xx月
+&pageNum=1
+&pageSize=20
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 2,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 2,
+    "total": 2,
+    "pages": 1,
+    "list":[
+      {
+        "id": 1,
+        "yearMonth": "2018年12月",
+        "name": "dand",
+        "salary": 151.45,
+        "createTime": "2018-12-24 02:30:19",
+        "updateTime": "2018-12-24 02:30:19"
+      },
+      {
+        "id": 2,
+        "yearMonth": "2018年12月",
+        "name": "alex",
+        "salary": 15111.45,
+        "createTime": "2018-12-24 02:31:25",
+        "updateTime": "2018-12-24 02:31:25"
+      }
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+
+#录入后勤工资数据
+/finance/add-logistical-salary.do
+(Post)
+Json参数：
+{
+  "yearMonth":"2018年12月", //这个日期格式, 前端必须固定为xxxx年xx月, 否则前面展示列表的时候会获取不了对于数据
+  "name":"dand",
+  "salary":151.45
+}
+
+返回:
+{
+"status": 0,
+"data": "添加成功"
+}
+失败:
+{
+"status": 1,
+"msg": "2018年12月已添加dand的工资, 不能重复添加" 
+}
+
+
+
+#根据ID, 修改后勤工资数据
+/finance/update-logistical-salary.do
+(Post)
+Json参数：
+{
+  "id":1, //列表中的唯一id
+  "salary":1665.12
+}
+
+返回:
+{
+"status": 0,
+"data": "修改成功"
+}
+
+
+
+#根据ID, 删除后勤工资数据
+/finance/delete-logistical-salary.do
+(GET)
+URL参数:
+?id=1
+
+返回:
+{
+"status": 0,
+"data": "删除成功"
+}

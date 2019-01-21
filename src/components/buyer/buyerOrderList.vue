@@ -11,6 +11,7 @@
           <li v-for="(item,index) in nonCompleteList" @click="toggleButton(item)" :key="index">
             <div class="itemTitle">地址：{{item.address}}
             </div>
+            <div class="itemSummary">联系人：{{item.contact}} &nbsp; &nbsp;电话：{{item.phone}}</div>
             <div class="itemSummary">创建时间：{{item.createTime}}</div>
             <div class="itemSummary">到达时间：{{item.arriveTime}}</div>
           </li>
@@ -24,6 +25,7 @@
           <li v-for="(item,index) in completeList" @click="toggleButton(item)" :key="index">
             <div class="itemTitle">地址：{{item.address}}
             </div>
+            <div class="itemSummary">联系人：{{item.contact}} &nbsp; &nbsp;电话：{{item.phone}}</div>
             <div class="itemSummary">创建时间：{{item.createTime}}</div>
             <div class="itemSummary">到达时间：{{item.arriveTime}}</div>
           </li>
@@ -33,6 +35,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
   </div>
 </template>
 <script>
@@ -78,7 +81,7 @@ export default {
   methods: {
     onloadOrder() {
       var _this = this;
-      this.$store.commit('isShow', 'home');
+      this.$store.commit('isShow', ' ');
       this.$store.commit('changeTitle', this.$route.query.projectName)
       this.$store.commit('changeBtn', 'home');
       var data = {};

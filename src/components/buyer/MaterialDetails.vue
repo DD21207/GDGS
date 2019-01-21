@@ -17,6 +17,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
   </div>
 </template>
 <script>
@@ -60,7 +61,7 @@ export default {
   methods: {
     onloadDetail() {
       var _this = this;
-      this.$store.commit('isShow', 'home');
+      this.$store.commit('isShow', ' ');
       this.$store.commit('changeTitle', this.$route.query.projectName)
       this.$store.commit('changeBtn', 'home');
       var data  = {};
@@ -69,9 +70,9 @@ export default {
       sessionStorage.setItem('MaterialDetails',JSON.stringify(data));
       this.detailData = data;
 
-      this.$fetch('/buyer/item-percent-list.do?projectId='+ this.detailData.projectId).then(response => {
+      this.$fetch('/buyer/item-percent-list.do?projectId='+ this.detailData.projectId + '&pageNum=' + this.pageNum + '&pageSize=10').then(response => {
         if (response.status === 0) {
-            this.projectList = this.projectList.concat(response.data)
+            this.projectList = this.projectList.concat(response.data.list)
         } else {
             this.$vux.toast.show({
               text: response.msg,

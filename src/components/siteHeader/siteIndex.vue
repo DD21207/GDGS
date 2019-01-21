@@ -6,15 +6,15 @@
       <div class="list_box">
         <ul>
           <li v-for="(item,index) in projectList" @click="toggleButton(item)" :key="index">
-            <div class="itemTitle">{{item.projectName}}   <span class="itemTip">{{item | projectStatus}}</span>
+            <div class="itemTitle">{{item.projectName}} <span class="itemTip" v-if="item.status != 'finished'">{{item | projectStatus}}</span> <span class="itemTip" v-if="item.status == 'finished'">已完成</span>
               <!-- <badge class="itemBadge" v-if="item.progress*1 != 100"></badge> -->
             </div>
-            <div class="itemSummary">开始时间：{{item.startDate}}  &nbsp;&nbsp; 进度：{{item.progress | formatPercent}}</div>
-            <div class="itemSummary">控制价进度：{{item.costPercent | formatPercent}}   &nbsp;&nbsp;  应收进度：{{item.receivePercent | formatPercent}}</div>
+            <div class="itemSummary">开始时间：{{item.startDate}} &nbsp;&nbsp; 进度：{{item.progress | formatPercent}}</div>
+            <div class="itemSummary">控制价进度：{{item.costPercent | formatPercent}} &nbsp;&nbsp; 应收进度：{{item.receivePercent | formatPercent}}</div>
             <transition name="slide-fade">
               <div v-show="item.show" class="itemButtonBox">
                 <x-button mini class="itemButtonBoxItem" @click.native="hrefClick(0,item)">估算设备材料</x-button>
-                <x-button mini class="itemButtonBoxItem" @click.native="hrefClick(1,item)">下达采购订单</x-button>
+                <x-button mini class="itemButtonBoxItem" @click.native="hrefClick(1,item)">采购订单管理</x-button>
                 <x-button mini class="itemButtonBoxItem" v-bind:class="item.progress*1 == 100 ? 'completeButton':''" :disabled="item.progress*1 == 100" @click.native="hrefClick(2,item)">更新工程进度</x-button>
                 <x-button mini class="itemButtonBoxItem" @click.native="hrefClick(3,item)">查看项目详情</x-button>
               </div>
@@ -26,6 +26,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
   </div>
 </template>
 <script>
@@ -33,8 +34,8 @@ export default {
   name: 'siteIndex',
   data() {
     return {
-      username:"",
-      pageNum:1,
+      username: "",
+      pageNum: 1,
       projectList: [],
     }
   },
@@ -45,17 +46,17 @@ export default {
     formatPercent: function(value) {
       return value + "%"
     },
-    projectStatus:function(value) {
-        var text = "";
-        if(value.progress*1 == 100){
-          return text = "已完成"
-        }else{
-          if(value.needUpdate){
-            return text = "未更新"
-          }else{
-            return text = "已更新"
-          }
+    projectStatus: function(value) {
+      var text = "";
+      if (value.progress * 1 == 100) {
+        return text = "已完成"
+      } else {
+        if (value.needUpdate) {
+          return text = "未更新"
+        } else {
+          return text = "已更新"
         }
+      }
     }
   },
   mounted: function() {
@@ -72,20 +73,20 @@ export default {
       this.$store.commit('changeBtn', 'home');
       this.$post('/get-user-info.do').then(response => {
         if (response.status === 0) {
-            this.username = response.data.username;
+          this.username = response.data.username;
         } else {
           this.$vux.toast.show({
             text: response.msg,
           })
         }
       });
-      this.$fetch('/site-header/project-list.do?pageNum='+_this.pageNum+'&pageSize=10').then(response => {
+      this.$fetch('/site-header/project-list.do?pageNum=' + _this.pageNum + '&pageSize=10').then(response => {
         if (response.status === 0) {
-            this.projectList = this.projectList.concat(response.data.list)
+          this.projectList = this.projectList.concat(response.data.list)
         } else {
-            this.$vux.toast.show({
-              text: response.msg,
-            })
+          this.$vux.toast.show({
+            text: response.msg,
+          })
         }
 
       })
@@ -98,47 +99,65 @@ export default {
 
       item.show = !item.show;
     },
-    loadMore(){
-      this.pageNum +=1;
+    loadMore() {
+      this.pageNum += 1;
       this.onloadSite();
     },
-    hrefClick(status,item){
+    hrefClick(status, item) {
       switch (status) {
         case 0:
+          if (item.status == 'finished') {
+            this.$vux.toast.show({
+              text: '项目已完成！！！',
+            })
+            return false;
+          }
           this.$router.push({
             path: 'estItem',
             query: {
-              projectId:item.id,
-              projectName:item.projectName
+              projectId: item.id,
+              projectName: item.projectName
             }
           });
           break;
         case 1:
+           if (item.status == 'finished') {
+            this.$vux.toast.show({
+              text: '项目已完成！！！',
+            })
+            return false;
+          }
           this.$router.push({
             path: 'orderList',
             query: {
-              projectId:item.id,
-              projectName:item.projectName,
-              address:item.address
+              projectId: item.id,
+              projectName: item.projectName,
+              address: item.address
             }
           });
           break;
         case 2:
-          var data  = {};
+         if (item.status == 'finished') {
+            this.$vux.toast.show({
+              text: '项目已完成！！！',
+            })
+            return false;
+          }
+          var data = {};
           data['projectId'] = item.id;
           data['projectName'] = item.projectName;
           data['progress'] = item.progress;
-          sessionStorage.setItem('progressData',JSON.stringify(data));
+          sessionStorage.setItem('progressData', JSON.stringify(data));
           this.$router.push({
             path: 'updateProgress',
             query: {
-              projectId:item.id,
-              projectName:item.projectName,
-              progress:item.progress
+              projectId: item.id,
+              projectName: item.projectName,
+              progress: item.progress
             }
           });
           break;
-         case 3:
+        case 3:
           // var data  = {};
           // data['projectId'] = item.id;
           // data['projectName'] = item.projectName;
@@ -147,7 +166,7 @@ export default {
           this.$router.push({
             path: 'projectDetail',
             query: {
-              projectId:item.id,
+              projectId: item.id,
             }
           });
           break;
@@ -161,7 +180,7 @@ export default {
 </script>
 <style lang="less">
 @import '../../assets/less/common.less';
-@common_color:#174192;
+@common_color: #174192;
 
 
 #siteIndex {
@@ -191,21 +210,24 @@ export default {
         li {
           border-bottom: 1px solid lightgrey;
 
-          .moreBtn{
+          .moreBtn {
             padding: 5px 20px;
-            font-size:13px;
+            font-size: 13px;
             color: @common_color;
           }
+
           .itemTitle {
             font-size: 15px;
             // font-weight: bold;
             padding: 3px 10px 0;
-            .itemBadge{
+
+            .itemBadge {
               position: absolute;
               right: 10px;
               margin-top: 15px;
             }
-            .itemTip{
+
+            .itemTip {
               // height: 20px;
               padding: 0px 7px;
               margin-left: 10px;
@@ -215,6 +237,10 @@ export default {
               border: 1px solid #ff6430;
               border-radius: 5px;
             }
+
+            // .itemTip1{
+
+            // }
           }
 
           .itemSummary {
@@ -226,15 +252,16 @@ export default {
 
           .itemButtonBox {
             padding: 5px 10px 10px 10px;
-            .itemButtonBoxItem{
+
+            .itemButtonBoxItem {
               background: @common_color;
-              color:white;
+              color: white;
               margin-top: 5px;
               margin-left: 5px;
             }
 
-            .completeButton{
-              background:grey;
+            .completeButton {
+              background: grey;
             }
           }
         }

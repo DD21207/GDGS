@@ -25,6 +25,34 @@ import buyerIndex from '@/components/buyer/buyerIndex.vue'
 import MaterialDetails from '@/components/buyer/MaterialDetails.vue'
 import buyerOrderList from '@/components/buyer/buyerOrderList.vue'
 import buyerOrderDetail from '@/components/buyer/buyerOrderDetail.vue'
+import projectList from '@/components/accounting/projectList.vue'
+import projectDetailAccount from '@/components/accounting/projectDetailAccount.vue'
+import checkTotal from '@/components/accounting/checkTotal.vue'
+import priceList from '@/components/accounting/priceList.vue'
+import projectListFinance from '@/components/finance/projectList.vue'
+import projectDetailFinance from '@/components/finance/projectDetailFinance.vue'
+import supplierList from '@/components/finance/supplierList.vue'
+import supplierDetail from '@/components/finance/supplierDetail.vue'
+import logisticalList from '@/components/finance/logisticalList.vue'
+import addNewFinance from '@/components/finance/addNewFinance.vue'
+import salaryList from '@/components/finance/salaryList.vue'
+import detailEditFinance from '@/components/finance/detailEditFinance.vue'
+import projectListCompany from '@/components/company/projectList.vue'
+import projectDetailCompany from '@/components/company/projectDetailCompany.vue'
+import ledgerListCompany from '@/components/company/ledgerList.vue'
+import reportList from '@/components/company/reportList.vue'
+import closeProject from '@/components/company/closeProject.vue'
+import projectListBalance from '@/components/balance/projectList.vue'
+import projectDetailBalance from '@/components/balance/projectDetailBalance.vue'
+import ledgerList from '@/components/balance/ledgerList.vue'
+import addNewLedger from '@/components/balance/addNewLedger.vue'
+import detailEditLedger from '@/components/balance/detailEditLedger.vue'
+import showTable from '@/views/showTable.vue'
+
+
+
+
+
 
 
 
@@ -35,11 +63,13 @@ Vue.use(Router)
 
 export default new Router({
   // mode: 'history',
-  routes: [{
+  routes: [
+  {
     path: '/',
     name: 'gdgs',
     redirect: '/Home'
-  }, {
+  }, 
+  {
     path: '/Login',
     name: 'Login',
     component: Login
@@ -59,8 +89,8 @@ export default new Router({
       path: '/Edit',
       name: 'Edit',
       component: Edit,
-      meta:{
-        keepAlive:true
+      meta: {
+        keepAlive: true
       },
     }, {
       path: '/newsList',
@@ -141,6 +171,99 @@ export default new Router({
       path: '/buyerOrderDetail',
       name: 'buyerOrderDetail',
       component: buyerOrderDetail
+    }, {
+      path: '/projectList',
+      name: 'projectList',
+      component: projectList
+    }, {
+      path: '/projectDetailAccount',
+      name: 'projectDetailAccount',
+      component: projectDetailAccount
+    }, {
+      path: '/checkTotal',
+      name: 'checkTotal',
+      component: checkTotal
+    }, {
+      path: '/priceList',
+      name: 'priceList',
+      component: priceList
+    },
+    {
+      path: '/projectListFinance',
+      name: 'projectListFinance',
+      component: projectListFinance
+    }, {
+      path: '/projectDetailFinance',
+      name: 'projectDetailFinance',
+      component: projectDetailFinance
+    }, {
+      path: '/supplierList',
+      name: 'supplierList',
+      component: supplierList
+    }, {
+      path: '/supplierDetail',
+      name: 'supplierDetail',
+      component: supplierDetail
+    }, {
+      path: '/logisticalList',
+      name: 'logisticalList',
+      component: logisticalList
+    },  {
+      path: '/salaryList',
+      name: 'salaryList',
+      component: salaryList
+    }, {
+      path: '/addNewFinance',
+      name: 'addNewFinance',
+      component: addNewFinance
+    }, {
+      path: '/detailEditFinance',
+      name: 'detailEditFinance',
+      component: detailEditFinance
+    }, {
+      path: '/projectListCompany',
+      name: 'projectListCompany',
+      component: projectListCompany
+    }, {
+      path: '/projectDetailCompany',
+      name: 'projectDetailCompany',
+      component: projectDetailCompany
+    }, {
+      path: '/ledgerListCompany',
+      name: 'ledgerListCompany',
+      component: ledgerListCompany
+    }, {
+      path: '/reportList',
+      name: 'reportList',
+      component: reportList
+    }, {
+      path: '/closeProject',
+      name: 'closeProject',
+      component: closeProject
+    }, {
+      path: '/projectListBalance',
+      name: 'projectListBalance',
+      component: projectListBalance
+    }, {
+      path: '/projectDetailBalance',
+      name: 'projectDetailBalance',
+      component: projectDetailBalance
+    }, {
+      path: '/ledgerList',
+      name: 'ledgerList',
+      component: ledgerList
+    }, {
+      path: '/addNewLedger',
+      name: 'addNewLedger',
+      component: addNewLedger
+    }, {
+      path: '/detailEditLedger',
+      name: 'detailEditLedger',
+      component: detailEditLedger
+    }, {
+      path: '/showTable',
+      name: 'showTable',
+      component: showTable
     }]
   }]
 })

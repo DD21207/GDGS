@@ -1,0 +1,254 @@
+#*****************************************************************************
+# 会计模块
+#*****************************************************************************
+
+#获取当天各项材料最高最低价格对比
+/accounting/price-info-list.do
+(GET)
+?dateStr=2018-12-16 (//前端获取当天日期, 格式yyyy-MM-dd)
+&pageNum=1
+&pageSize=20
+
+返回
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 2,
+    "size": 2,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 1,
+    "total": 2,
+    "pages": 1,
+    "list":[
+      {
+      "itemId": 4,
+      "category": "水泥",
+      "spec": "C25混凝土",
+      "unit": "方",
+      "maxPrice": "10",
+      "maxSupplier": "雕牌",
+      "minPrice": "10",
+      "minSupplier": "雕牌"
+      },
+      {"itemId": 8, "category": "沙", "spec": "细沙", "unit": "方",…}
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+#会计的项目列表
+/accounting/project-list.do
+（GET）
+?pageNum=1
+&pageSize=20
+
+返回：
+{
+  "status": 0,
+  "data":{
+  "pageNum": 1,
+  "pageSize": 3,
+  "size": 3,
+  "orderBy": null,
+  "startRow": 0,
+  "endRow": 2,
+  "total": 3,
+  "pages": 1,
+  "list":[
+      {
+      "id": 100001,
+      "projectName": "增城公园",
+      "status": "new added",
+      "progress": "60",
+      "issuingContract": "aaa",
+      "address": "增城市荔城大道增城广场",
+      "startDate": "2018-11-14",
+      "endDate": "2019-01-02",
+      "content": "aaaaaa",
+      "siteLeader": "张三",
+      "buyer": "张4",
+      "createTime": "2018-11-14 21:15:49",
+      "updateTime": "2018-12-05 23:10:21",
+      "show": false,
+      "needUpdate": true,
+      "receivableAmount": "12000000",
+      "receivable": "0",
+      "receivePercent": "0.0",
+      "budget": "8000000",
+      "workerCost": "0",
+      "equipmentCost": "4600",
+      "materialCost": "0",
+      "totalCost": "4600",
+      "costPercent": "0.1",
+      "usedDays": "32",
+      "totalDays": "49",
+      "daysPercent": "65.3"
+      },
+      {"id": 100003, "projectName": "天际大厦", "status": "new added", "progress": "23",…},
+      {"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+      ],
+      "firstPage": 1,
+      "prePage": 0,
+      "nextPage": 0,
+      "lastPage": 1,
+      "isFirstPage": true,
+      "isLastPage": true,
+      "hasPreviousPage": false,
+      "hasNextPage": false,
+      "navigatePages": 8,
+      "navigatepageNums":[
+      1
+  ]
+}
+
+#项目详细信息
+/accounting/project-details.do
+(GET)
+?projectId=100001
+
+返回
+{
+  "status": 0,
+  "data":{
+    "id": 100001,
+    "projectName": "增城公园",
+    "status": "new added",
+    "progress": "60",
+    "issuingContract": "aaa",
+    "address": "增城市荔城大道增城广场",
+    "startDate": "2018-11-14",
+    "endDate": "2019-01-02",
+    "content": "aaaaaa",
+    "siteLeader": "张三",
+    "buyer": "张4",
+    "createTime": "2018-11-14 21:15:49",
+    "updateTime": "2018-12-05 23:10:21",
+    "show": false,
+    "needUpdate": false,
+    "receivableAmount": "12000000",
+    "receivable": "0",
+    "receivePercent": "0.0",
+    "budget": "8000000",
+    "workerCost": "0",
+    "equipmentCost": "4600",
+    "materialCost": "0",
+    "totalCost": "4600",
+    "costPercent": "0.1",
+    "materialPercent": "0.0",
+    "equipmentPercent": "0.0",
+    "usedDays": "32",
+    "totalDays": "49",
+    "daysPercent": "65.3"
+  }
+}
+
+
+
+
+#第三点
+#项目具体已经确认的材料或者设备详细列表 (分两个tab)
+/accounting/price-details.do
+(GET)
+?projectId=100001
+&item=材料  (分别切换, 材料或者设备)
+&pageNum=1
+&pageSize=20
+
+返回：
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 5,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 5,
+    "total": 5,
+    "pages": 1,
+    "list":[
+        {
+        "id": 27,
+        "userId": 14,
+        "projectId": 100001,
+        "status": 30,
+        "orderNo": 1543341712795,
+        "item": "材料",
+        "itemId": 4,
+        "category": "水泥",
+        "spec": "C25混凝土",
+        "unit": "方",
+        "quantityEst": 6,
+        "quantityAct": 6,
+        "supplier": null,
+        "unitPrice": 20,
+        "totalPrice": 120,
+        "createTime": "2018-11-28 02:01:52",
+        "updateTime": "2018-11-30 00:55:41"
+        },
+        {"id": 30, "userId": 14, "projectId": 100001, "status": 30, "orderNo": 1543511023559,…},
+        {"id": 33, "userId": 14, "projectId": 100001, "status": 30, "orderNo": 1543511542031,…},
+        {"id": 23, "userId": 1, "projectId": 100001, "status": 30, "orderNo": 1542945675767,…},
+        {"id": 57, "userId": 2, "projectId": 100001, "status": 30, "orderNo": 1544082683575,…}
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+#确认所有价钱列表
+/accounting/confirm-price-details.do
+（Post）
+//Json参数的数据从 accounting/price-details.do 的返回获取
+
+Json参数：
+[
+    {
+      "id": 30, 
+      "projectId":100001,
+      "orderNo": 1543511023559,
+      "item": "材料"
+    },
+    {
+      "id": 35,
+      "projectId":100001,
+      "orderNo": null,
+      "item": "设备"
+    },
+    {
+      "id": 59,
+      "projectId":100004,
+      "orderNo": 1544894484599,
+      "item": "材料"
+    }
+]
+
+返回：
+{
+"status": 0,
+"data": "确认成功"
+}

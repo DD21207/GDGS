@@ -9,7 +9,7 @@
             </div>
             <div class="itemSummary">下单数量：{{item.quantityEst}} {{item.unit}} </div>
             <div class="itemSummary" v-if="item.unitPrice*1 != 0">单价：{{item.unitPrice}}  &nbsp;&nbsp;供应商：{{item.supplier}} </div>
-            <x-button mini v-if="item.unitPrice*1 == 0 " class="itemButtonBoxItem" v-bind:class="item.quantityAct*1 == 0 ? 'completeButton':''"  @click.native="gotoConfirm(item)">确认</x-button>
+            <x-button mini v-if="item.unitPrice*1 == 0 " class="itemButtonBoxItem" v-bind:class="item.unitPrice*1 == 0 ? '':'completeButton'"  @click.native="gotoConfirm(item)">确认</x-button>
           </li>
           <li>
             <p class="moreBtn" @click="loadMore">加载更多</p>
@@ -17,6 +17,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
     <div class="popper_div" v-show="popperShow">
       <div class="popper_input_box">
         <div class="popper_input_box_title">
@@ -97,6 +98,8 @@ export default {
     },
     gotoConfirm(item) {
       this.popperData = item;
+      this.popperData.supplier = " ";
+
       this.popperShow = !this.popperShow;
     },
     cancel() {
@@ -107,7 +110,16 @@ export default {
         "projectId": this.orderData.projectId,
         "orderNo": this.orderNo
       };
-      
+
+
+
+     if( this.popperData.unitPrice <= 0){
+        this.$vux.toast.show({
+            text: '单价不能为零',
+        })
+
+        return false;
+     }
       var data = {
         "id": this.popperData.id,
         "supplier": this.popperData.supplier,
@@ -128,7 +140,7 @@ export default {
                  _this.popperShow = !_this.popperShow;
 
             },1000)
-         
+
         } else {
           this.$vux.toast.show({
             text: response.msg,

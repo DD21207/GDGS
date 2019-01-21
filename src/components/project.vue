@@ -65,6 +65,7 @@ export default {
       });
     },
     itemClick(item){
+      sessionStorage.setItem('editProjectData', JSON.stringify(item.meta.data));
       this.$router.push({
           name: 'detailEdit',
           query: {

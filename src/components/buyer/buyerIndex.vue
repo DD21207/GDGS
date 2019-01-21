@@ -6,7 +6,7 @@
       <div class="list_box">
         <ul>
           <li v-for="(item,index) in projectList" @click="toggleButton(item)" :key="index">
-            <div class="itemTitle">{{item.projectName}}   
+            <div class="itemTitle">{{item.projectName}}    <span class="itemTip" v-if="item.needUpdate && item.status != 'finished'">新订单</span> <span class="itemTip" v-if="item.status == 'finished'">已完成</span>
             </div>
             <div class="itemSummary">开始时间：{{item.startDate}}  &nbsp;&nbsp; 进度：{{item.progress | formatPercent}}</div>
             <div class="itemSummary">控制价进度：{{item.costPercent | formatPercent}}   &nbsp;&nbsp;  材料进度：{{item.materialPercent | formatPercent}}</div>
@@ -23,6 +23,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
   </div>
 </template>
 <script>
@@ -42,18 +43,15 @@ export default {
     formatPercent: function(value) {
       return value + "%"
     },
-    projectStatus:function(value) {
-        var text = "";
-        if(value.progress*1 == 100){
-          return text = "已完成"
-        }else{
-          if(value.needUpdate){
-            return text = "未更新"
-          }else{
-            return text = "已更新"
-          }
-        }
-    }
+    // projectStatus:function(value) {
+    //     var text = "";
+    //     if(value.needUpdate){
+    //       return text = "新订单"
+    //     }else{
+    //       return text = "已更新"
+    //     }
+
+    // }
   },
   mounted: function() {
     this.onloadBuyer();
@@ -64,7 +62,7 @@ export default {
   methods: {
     onloadBuyer() {
       var _this = this;
-      this.$store.commit('isShow', 'home');
+      this.$store.commit('isShow', ' ');
       this.$store.commit('changeTitle', '项目列表')
       this.$store.commit('changeBtn', 'home');
       this.$post('/get-user-info.do').then(response => {

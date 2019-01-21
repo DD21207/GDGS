@@ -47,6 +47,7 @@
           <x-number :title="'设备数量'" v-model="eQuantityEst" button-style="round" :fillable='true' width="100px"></x-number>
           <x-input title="数量单位" v-model="eUnit" :text-align="'right'" :placeholder-align="'right'" :readonly='true'></x-input>
           <x-input title="单价" v-model="ePrice" :text-align="'right'" :placeholder-align="'right'"></x-input>
+          <x-input title="供应商" v-model="eSupplier" :text-align="'right'" :placeholder-align="'right'"></x-input>
         </group>
       </div>
       <div class="button_box">
@@ -85,6 +86,7 @@ export default {
       list: [],
       progress: 0,
       ePrice: 0,
+      eSupplier:"",
       workerCost: "",
       localIdImgs: [],
       serverId: [],
@@ -151,7 +153,10 @@ export default {
       this.$store.commit('isShow', ' ');
       this.$store.commit('changeBtn', ' ');
       // 获取设备Category列表
-      this.$fetch('/site-header/equipment-category-list.do').then(response => {
+       this.$post('/site-header/estimate-category-list.do',{
+        "projectId":this.progressData.projectId,
+        "item":"设备"
+      }).then(response => {
         this.eCategoryCode = response.data;
         var list1 = [];
         $.each(response.data, function(index, val) {
@@ -170,7 +175,11 @@ export default {
         let Code = "";
         let category = value[0];
         // 获取设备Spec列表
-        this.$fetch('/site-header/equipment-list.do?category=' + category).then(response => {
+        this.$post('/site-header/estimate-item-list.do',{
+            "projectId":this.progressData.projectId,
+            "item":"设备",
+            "category":category
+        }).then(response => {
           this.eSpecCode = response.data;
           var list1 = [];
           $.each(response.data, function(index, val) {
@@ -204,7 +213,8 @@ export default {
           "spec": _this.eSpecSelected[0],
           "unit": _this.eUnit,
           "quantityAct": _this.eQuantityEst,
-          "unitPrice": _this.ePrice
+          "unitPrice": _this.ePrice,
+          "supplier":_this.eSupplier
         }
         var isExist = false;
         $.each(_this.list, function(index, val) {
@@ -228,16 +238,6 @@ export default {
           })
         }
 
-      } else {
-        var Data = {
-          "item": "材料",
-          "itemId": _this.mId,
-          "category": _this.mCategorySelected[0],
-          "spec": _this.mSpecSelected[0],
-          "unit": _this.mUnit,
-          "quantityEst": _this.mQuantityEst
-        }
-        _this.list.push(Data)
       }
 
       console.log(_this.list)
@@ -251,6 +251,7 @@ export default {
       this.ePrice = 0;
       this.eUnit = " ";
       this.addEquipment = !this.addEquipment;
+      this.eSupplier = " ";
     },
     addSubmit() {
       var _this = this;
@@ -275,9 +276,11 @@ export default {
             text: response.data,
           })
           setTimeout(function() {
-            _this.$router.push({
+            _this.$router.replace({
               path: 'siteIndex',
             })
+            _this.$router.go(-1)
+
           }, 800)
         } else {
           this.$vux.toast.show({
@@ -327,7 +330,7 @@ export default {
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function(res) {
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-          // 判断 ios 
+          // 判断 ios
           if (window.__wxjs_is_wkwebview) {
             _this.wxgetLocalImgData(localIds);
           } else {
@@ -444,7 +447,7 @@ export default {
       padding-top: 10px;
 
       padding-bottom: 10px;
-      width: 100%;
+      // width: 100%;
       font-weight: bold;
       font-size: 17px;
     }

@@ -1,0 +1,305 @@
+
+
+#*****************************************************************************
+# 预决算管理员模块
+#*****************************************************************************
+
+#获取项目列表
+/balance/project-list.do
+(GET) 
+URL参数:
+?pageNum=1
+&pageSize=20
+
+返回
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 3,
+    "size": 3,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 2,
+    "total": 3,
+    "pages": 1,
+    "list":[
+      {
+      "id": 100001,
+      "projectName": "增城公园",
+      "status": "new added",
+      "progress": "60",
+      "issuingContract": "aaa",
+      "address": "增城市荔城大道增城广场",
+      "startDate": "2018-11-14",
+      "endDate": "2019-01-02",
+      "content": "aaaaaa",
+      "siteLeader": "张三",
+      "buyer": "张4",
+      "createTime": "2018-11-14 21:15:49",
+      "updateTime": "2018-12-05 23:10:21",
+      "show": false,
+      "needUpdate": true,
+      "receivableAmount": "12000000",
+      "receivable": "0",
+      "receivePercent": "0.0",
+      "budget": "8000000",
+      "workerCost": "0",
+      "equipmentCost": "4600",
+      "materialCost": "0",
+      "totalCost": "4600",
+      "costPercent": "0.1",
+      "usedDays": "40",
+      "totalDays": "49",
+      "daysPercent": "81.6"
+      },
+      {"id": 100003, "projectName": "天际大厦", "status": "new added", "progress": "23",…},
+      {"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+      ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+    }
+}
+
+
+
+#项目详细信息
+/balance/project-details.do
+(GET)
+URL参数:
+?projectId=100001
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "id": 100001,
+    "projectName": "增城公园",
+    "status": "new added",
+    "progress": "60",
+    "issuingContract": "aaa",
+    "address": "增城市荔城大道增城广场",
+    "startDate": "2018-11-14",
+    "endDate": "2019-01-02",
+    "content": "aaaaaa",
+    "siteLeader": "张三",
+    "buyer": "张4",
+    "createTime": "2018-11-14 21:15:49",
+    "updateTime": "2018-12-05 23:10:21",
+    "show": false,
+    "needUpdate": false,
+    "receivableAmount": "12000000",
+    "receivable": "0",
+    "receivePercent": "0.0",
+    "budget": "8000000",
+    "workerCost": "0",
+    "equipmentCost": "4600",
+    "materialCost": "0",
+    "totalCost": "4600",
+    "costPercent": "0.1",
+    "materialPercent": "0.0",
+    "equipmentPercent": "0.0",
+    "usedDays": "40",
+    "totalDays": "49",
+    "daysPercent": "81.6"
+  }
+}
+
+
+
+#获取对应项目的发票台账列表
+/balance/ledger-data-list.do
+(GET)
+URL参数:
+?projectId=100001
+&pageNum=1
+&pageSize=20
+
+返回:
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 20,
+    "size": 2,
+    "orderBy": null,
+    "startRow": 1,
+    "endRow": 2,
+    "total": 2,
+    "pages": 1,
+    "list":[
+      {
+        "id": 1,
+        "projectId": 100001,
+        "projectName": "增城公园",
+        "biddingCompany": "广州市黄浦区市政建设有限公司",
+        "supplier": "广州市华合建筑材料有限公司",
+        "materialContractAmount": 12000000,
+        "cumulativePaymentAmount": 6000000,
+        "paymentAmount": 6000000,
+        "paymentDate": 1530547200000,
+        "remark": "",
+        "createTime": "2018-12-25 18:00:27",
+        "updateTime": "2018-12-25 18:00:27"
+      },
+      {"id": 2, "projectId": 100001, "projectName": "增城公园", "biddingCompany": "广州市黄浦区市政建设有限公司",…}
+    ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+  }
+}
+
+
+
+#录入项目发票台账数据
+/balance/add-ledger-data.do
+(Post)
+Json参数：
+{
+  "projectId":100001, //必须
+  "projectName":"增城公园", //必须
+  "biddingCompany":"广州市黄浦区市政建设有限公司", //必须 中标挂靠公司
+  "supplier":"广州市广建水泥制品有限公司", //必须 材料商开票公司
+  "materialContractAmount":738000.00, //必须 签订材料合同金额
+  "cumulativePaymentAmount":250000.00, //必须 累计付款金额
+  "paymentAmount":250000.00, //必须 本次付款金额
+  "paymentDate":"2018-07-03", //必须 本次付款日期
+  "remark":"" //可选 没有的时候, 请变成"", 不用是null
+}
+
+返回:
+{
+"status": 0,
+"data": "添加成功"
+}
+
+
+
+#根据ID, 修改台账数据
+/balance/update-ledger-data.do
+(Post)
+Json参数：
+{
+  "id":1, //列表中的唯一id
+  "supplier":"广州市广建水泥制品有限公司",  //可选, 没有的时候不用出现这个字段 材料商开票公司
+  "materialContractAmount":738000.00, //可选, 没有的时候不用出现这个字段 签订材料合同金额
+  "cumulativePaymentAmount":260000.00, //可选, 没有的时候不用出现这个字段 签订材料合同金额
+  "paymentAmount":260000.00, //可选, 没有的时候不用出现这个字段 签订材料合同金额
+  "paymentDate":"2018-07-04", //可选, 没有的时候不用出现这个字段 签订材料合同金额
+  "remark":"" //可选, 没有的时候不用出现这个字段 签订材料合同金额
+}
+
+返回:
+{
+"status": 0,
+"data": "修改成功"
+}
+
+
+
+#根据ID, 删除台账数据
+/balance/delete-ledger-data.do
+(GET)
+URL参数:
+?id=1
+
+返回:
+{
+"status": 0,
+"data": "删除成功"
+}
+
+
+
+
+#*****************************************************************************
+# 电视轮播模块
+#*****************************************************************************
+
+#获取项目列表
+/tv-show/project-list.do
+(GET) 
+URL参数:
+?pageNum=1
+&pageSize=20
+
+返回 //比之前的接口多了"progressStatus"字段, 分为"落后","适中","超前","已完工", 分别不同颜色
+{
+  "status": 0,
+  "data":{
+    "pageNum": 1,
+    "pageSize": 3,
+    "size": 3,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 2,
+    "total": 3,
+    "pages": 1,
+    "list":[
+      {
+        "id": 100001,
+        "projectName": "增城公园",
+        "status": "running",
+        "progress": "60",
+        "issuingContract": "aaa",
+        "address": "增城市荔城大道增城广场",
+        "startDate": "2018-11-14",
+        "endDate": "2019-01-02",
+        "content": "aaaaaa",
+        "siteLeader": "张三",
+        "buyer": "张4",
+        "createTime": "2018-11-14 21:15:49",
+        "updateTime": "2018-12-24 18:03:48",
+        "show": false,
+        "needUpdate": false,
+        "receivableAmount": "12000000.00",
+        "receivable": "611110.00",
+        "receivePercent": "5.1",
+        "budget": "8000000.00",
+        "workerCost": "0.00",
+        "equipmentCost": "4600.00",
+        "materialCost": "29050.00",
+        "totalCost": "33650.00",
+        "costPercent": "0.4",
+        "usedDays": "41",
+        "totalDays": "49",
+        "daysPercent": "83.7",
+        "progressStatus": "落后"
+      },
+      {"id": 100003, "projectName": "天际大厦", "status": "new added", "progress": "23",…},
+      {"id": 100004, "projectName": "1111", "status": "new added", "progress": "83",…}
+      ],
+    "firstPage": 1,
+    "prePage": 0,
+    "nextPage": 0,
+    "lastPage": 1,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums":[
+    1
+    ]
+    }
+}

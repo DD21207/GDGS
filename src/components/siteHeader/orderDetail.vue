@@ -8,7 +8,7 @@
             <div class="itemTitle">{{item.category}} - {{item.spec}}
             </div>
             <div class="itemSummary">下单数量：{{item.quantityEst}} {{item.unit}} <span v-if="item.quantityAct*1 != 0 ">到货数量：{{item.quantityAct}} {{item.unit}}</span></div>
-            <x-button mini class="itemButtonBoxItem" v-bind:class="item.quantityAct*1 != 0 ? 'completeButton':''" :disabled="item.quantityAct*1 != 0 " @click.native="gotoConfirm(item)">确认到货数量</x-button>
+            <x-button mini class="itemButtonBoxItem" v-bind:class="(item.quantityAct*1 != 0 || item.unitPrice*1 <= 0)? 'completeButton':''" :disabled="item.quantityAct*1 != 0 || item.unitPrice*1 <= 0" @click.native="gotoConfirm(item)">确认到货数量</x-button>
           </li>
           <li>
             <p class="moreBtn" @click="loadMore">加载更多</p>
@@ -16,6 +16,7 @@
         </ul>
       </div>
     </div>
+    <div class="bottom_div"></div>
     <div class="popper_div" v-show="popperShow">
       <div class="popper_input_box">
         <div class="popper_input_box_title">
@@ -106,7 +107,7 @@ export default {
         "orderNo": this.orderNo,
       };
 
-      console.log(this.popperData)
+
       var data = {
         "id": this.popperData.id,
         "quantityAct": this.quantityAct
@@ -121,12 +122,13 @@ export default {
             })
             var _this = this;
             _this.dataList = [];
+            _this.quantityAct = 0;
             _this.onloadDetail()
             setTimeout(function(){
                  _this.popperShow = !_this.popperShow;
 
             },1000)
-         
+
         } else {
           this.$vux.toast.show({
             text: response.msg,

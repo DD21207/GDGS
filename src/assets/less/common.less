@@ -22,5 +22,82 @@ html {
 }
 
 .bottom_div{
-  height: 50px;
+  height: 80px;
 }
+
+.popper_div {
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    // display: none;
+    z-index: 99;
+
+    .popper_input_box {
+      width: 90%;
+      height: 300px;
+      margin: 40% auto;
+      background: white;
+      border-radius: 10px;
+
+      .popper_input_box_title {
+        width: 100%;
+        text-align: center;
+        height: 45px;
+        line-height: 45px;
+        font-size: 17px;
+        font-weight: bold;
+        border-bottom: 1px solid lightgrey;
+        background: @common_color;
+        color: white;
+      }
+
+      .popper_input_box_content {
+        >p {
+          width: 100%;
+          padding: 5px 15px;
+          font-weight: bold;
+
+        }
+
+      }
+
+      .btn_div {
+        padding: 5px 20px;
+
+        .itemButtonBoxItem {
+          background: @common_color;
+          color: white;
+          width: 47%;
+
+        }
+
+        .cancelButton {
+          background: #dddddd;
+          // border-color: #ddd;
+          color: @common_color;
+          margin-right: 4%;
+          width: 47%
+        }
+
+        // .btn_box{
+        //   width:auto;
+        //   float: right;
+        //   padding-right: 15px;
+        // }
+      }
+    }
+  }
+
+
+  .detail_img_box{
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    // padding: 0 15px;
+    img{
+      width: 100%;
+    }
+  }

@@ -58,7 +58,7 @@ export default {
             $.each(response.data.list, function(index, val) {
                 var userData = {};
                 userData['title'] = val.spec;
-                userData['desc'] = '名称：'+val.category+'/&nbsp;&nbsp;&nbsp;&nbsp;数量：'+val.quantityEst+'&nbsp;'+val.unit
+                userData['desc'] = '名称：'+val.category+'&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;数量：'+val.quantityEst+'&nbsp;'+val.unit
                 userData['meta'] = {};
                 userData.meta['id'] = val.id;
                 userData.meta['data'] = val;

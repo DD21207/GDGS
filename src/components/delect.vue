@@ -90,7 +90,7 @@ export default {
               }, 800)
             } else {
               _this.$vux.toast.show({
-                text: response.data,
+                text: response.msg,
               })
             }
           });

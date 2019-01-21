@@ -212,13 +212,15 @@ export default {
               text: response.data,
             })
             setTimeout(function() {
-              _this.$router.push({
+              _this.$router.replace({
                 path: 'estItem',
                 query: {
                   projectId:  _this.estItemData.projectId,
                   projectName:  _this.estItemData.projectName
                 }
               })
+              _this.$router.go(-1)
+
             }, 800)
           } else {
             this.$vux.toast.show({

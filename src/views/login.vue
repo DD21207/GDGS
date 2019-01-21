@@ -75,19 +75,19 @@ export default {
             text: '登录成功'
           })
           var _this = this;
-          if (response.data.usergroupCode == 4) {
-            setTimeout(function() {
-              _this.$router.push('/siteIndex')
-            }, 1000)
-          } else if (response.data.usergroupCode == 5) {
-            setTimeout(function() {
-              _this.$router.push('/buyerIndex')
-            }, 1000)
-          }else{
+          // if (response.data.usergroupCode == 4) {
+          //   setTimeout(function() {
+          //     _this.$router.push('/siteIndex')
+          //   }, 1000)
+          // } else if (response.data.usergroupCode == 5) {
+          //   setTimeout(function() {
+          //     _this.$router.push('/buyerIndex')
+          //   }, 1000)
+          // }else{
             setTimeout(function() {
               _this.$router.push('/home')
             }, 1000)
-          }
+          // }
 
         } else {
           this.$vux.toast.show({

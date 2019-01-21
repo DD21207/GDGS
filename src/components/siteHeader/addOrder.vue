@@ -7,13 +7,13 @@
     		<group :gutter="'0px'">
 	    		<x-input title="联系人" v-model="contact" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
 	    		<x-input title="联系电话" v-model="phone" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input>
-          <datetime v-model="arriveTime" format="YYYY-MM-DD HH" title="到货时间"></datetime>
+          <datetime v-model="arriveTime" format="YYYY-MM-DD HH" title="到货时间" :start-date="dateLimit"></datetime>
 	    	<!-- 	<x-input title="到货时间" v-model="arriveTime" :text-align="'right'" :placeholder-align="'right'" placeholder="请输入"></x-input> -->
 	    	</group>
 	    	<p class="tips">已添加材料列表</p>
 	    	<group :gutter="'0px'">
 	    		<x-number :title="item.category+' - '+item.spec" v-model="item.quantityEst" :text-align="'right'"  placeholder="请输入" v-for="(item, index) in list" button-style="round" :fillable='true' width="100px"  :key="index"></x-number>
-	    		
+
 	    	</group>
     	</div>
     	<div class="button_box">
@@ -84,7 +84,8 @@ export default {
       mUnit:"",
       eId:"",
       mId:"",
-      list:[]
+      list:[],
+      dateLimit:""
     }
   },
   components: {
@@ -128,20 +129,23 @@ export default {
       this.$store.commit('changeBtn', ' ');
 
       // 获取设备Category列表
-      this.$fetch('/site-header/equipment-category-list.do').then(response => {
-        this.eCategoryCode = response.data;
-        var list1 = [];
-        $.each(response.data, function(index, val) {
-          var listItem = {};
-          listItem['name'] = val.category;
-          listItem['value'] = val.category;
-          list1.push(listItem);
-        });
-        this.eCategoryList.push(list1);
-      })
+      // this.$fetch('/site-header/equipment-category-list.do').then(response => {
+      //   this.eCategoryCode = response.data;
+      //   var list1 = [];
+      //   $.each(response.data, function(index, val) {
+      //     var listItem = {};
+      //     listItem['name'] = val.category;
+      //     listItem['value'] = val.category;
+      //     list1.push(listItem);
+      //   });
+      //   this.eCategoryList.push(list1);
+      // })
 
       // 获取材料Category列表
-      this.$fetch('/site-header/material-category-list.do').then(response => {
+      this.$post('/site-header/estimate-category-list.do',{
+        "projectId":this.orderData.projectId,
+        "item":"材料"
+      }).then(response => {
         this.mCategoryCode = response.data;
         var list1 = [];
         $.each(response.data, function(index, val) {
@@ -152,6 +156,28 @@ export default {
         });
         this.mCategoryList.push(list1);
       })
+
+      var date = new Date();
+      var seperator1 = "-";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+      var hour = date.getHours();
+      if( hour >= 16){
+          var day3 = new Date();
+          day3.setTime(day3.getTime()+24*60*60*1000);
+          var s3 = day3.getFullYear()+"-" + (day3.getMonth()+1) + "-" + day3.getDate();
+          this.dateLimit = s3;
+      }else{
+        this.dateLimit = currentdate
+      }
+
     },
     geteSpecData(value) {
       if (value[0]) {
@@ -178,7 +204,11 @@ export default {
         let Code = "";
         let category = value[0];
         // 获取设备Spec列表
-        this.$fetch('/site-header/material-list.do?category=' + category).then(response => {
+        this.$post('/site-header/estimate-item-list.do',{
+            "projectId":this.orderData.projectId,
+            "item":"材料",
+            "category":category
+        }).then(response => {
           this.mSpecCode = response.data;
           var list1 = [];
           $.each(response.data, function(index, val) {
@@ -242,7 +272,7 @@ export default {
 			  }
 			})
         }
-        
+
       } else {
         var Data = {
           "item": "材料",
@@ -260,11 +290,11 @@ export default {
 
     },
     addItemChange(){
-    	this.eCategorySelected  = []; 
+    	this.eCategorySelected  = [];
     	this.eSpecSelected = [];
     	this.eQuantityEst = 0;
     	this.eUnit = " ";
-    	this.mCategorySelected  = []; 
+    	this.mCategorySelected  = [];
     	this.mSpecSelected = [];
     	this.mQuantityEst = 0;
     	this.mUnit = " ";
@@ -291,7 +321,7 @@ export default {
               text: response.data,
             })
             setTimeout(function() {
-              _this.$router.push({
+              _this.$router.replace({
                 path: 'orderList',
                 query: {
                   projectId:  _this.orderData.projectId,
@@ -299,6 +329,8 @@ export default {
                   address:     _this.orderData.address
                 }
               })
+              _this.$router.go(-1)
+
             }, 800)
           } else {
             this.$vux.toast.show({
@@ -319,7 +351,7 @@ export default {
   padding-bottom: 100px;
 	.input_div{
 		padding-top: 10px;
-	  
+
 
 	    .title {
 	    	background: #f8f8f8;
@@ -333,7 +365,7 @@ export default {
 	    	background:white;
 	    	height:auto;
 	    	width:100%;
-			
+
 			.tips{
 				padding-left: 10px;
 		      padding-bottom: 10px;

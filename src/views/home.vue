@@ -16,10 +16,10 @@
           <span slot="icon" class="iconfont icon-home" style="font-size:20px;"></span>
           <span slot="label">首页</span>
         </tabbar-item>
-        <tabbar-item :badge="newsNum" link="/newsList" :selected="$route.path == '/newsList'">
+<!--         <tabbar-item :badge="newsNum" link="/newsList" :selected="$route.path == '/newsList'">
           <span slot="icon" class="iconfont icon-custom-news" style="font-size:20px;"></span>
           <span slot="label">News</span>
-        </tabbar-item>
+        </tabbar-item> -->
       </tabbar>
     </view-box>
   </div>
@@ -70,21 +70,28 @@ export default {
       if (view == 'userGroup') {
         this.$router.push({
           name: 'addNew',
-          params: {
+          query: {
             from: 'user'
+          }
+        });
+      } else if (view == 'project') {
+        this.$router.push({
+          name: 'addNew',
+          query: {
+            from: 'project'
           }
         });
       } else if (view == 'materialControl') {
         this.$router.push({
           name: 'addNew',
-          params: {
+          query: {
             from: 'material'
           }
         });
       } else if (view == 'equipmentControl') {
         this.$router.push({
           name: 'addNew',
-          params: {
+          query: {
             from: 'equipment'
           }
         });
@@ -100,12 +107,23 @@ export default {
         this.$router.push({
           name: 'addOrder'
         });
-      } else if (view == 'project') {
+      } else if (view == 'logistical') {
         this.$router.push({
-          name: 'addNew',
-          params: {
-            from: 'project'
+          name: 'addNewFinance',
+          query: {
+            from: 'logistical'
           }
+        });
+      } else if (view == 'salary') {
+        this.$router.push({
+          name: 'addNewFinance',
+          query: {
+            from: 'salary'
+          }
+        });
+      }else if (view == 'ledger') {
+        this.$router.push({
+          name: 'addNewLedger'
         });
       }
     }
